@@ -1,11 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AssemblyName>Outburst.Core</AssemblyName>
-    <RootNamespace>Outburst.Core</RootNamespace>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+    
+    <ItemGroup>
+        <Folder Include="src\"/>
+    </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>Outburst.Core</AssemblyName>
+        <RootNamespace>Outburst.Core</RootNamespace>
+    </PropertyGroup>
 
 </Project>

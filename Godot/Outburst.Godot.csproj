@@ -12,6 +12,7 @@
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <AssemblyName>Outburst.Godot</AssemblyName>
         <RootNamespace>Outburst.Godot</RootNamespace>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
 </Project>

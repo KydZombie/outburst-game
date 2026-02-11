@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Core/Outburst.Core.csproj" />
+  </Folder>
+  <Folder Name="/Godot/">
+    <Project Path="Godot/Outburst.Godot.csproj">
+      <BuildType Project="Debug" />
+    </Project>
+  </Folder>
+  <Folder Name="/Terminal/">
+    <Project Path="Terminal/Outburst.Terminal.csproj" />
+  </Folder>
+</Solution>

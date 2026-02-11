@@ -1,10 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    
+
     <ItemGroup>
         <ProjectReference Include="..\Core\Outburst.Core.csproj"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="src\"/>
     </ItemGroup>
     <PropertyGroup>
         <OutputType>Exe</OutputType>

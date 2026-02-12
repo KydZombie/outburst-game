@@ -17,14 +17,30 @@ public class BattleState(List<Character> characters, List<Card> cards)
     public List<Card> Hand { get; internal set; } = [];
     public List<Card> DiscardPile { get; internal set; } = [];
 
-    public Card? GetCardInHand(Guid cardId)
+    private Card? GetCardInHand(Guid cardId)
     {
-        throw new NotImplementedException();
+        return Hand.Find(card => card.CardId == cardId);
     }
 
     public Card? DrawCard()
     {
-        throw new NotImplementedException();
+        // TODO: Hand limit
+        if (Deck.Count == 0) return null;
+
+        var card = Deck[0];
+        Deck.RemoveAt(0);
+
+        Hand.Add(card);
+
+        return card;
+    }
+
+    private bool RemoveCardFromHand(Guid cardId)
+    {
+        var index = Hand.FindIndex(card => card.CardId == cardId);
+        if (index == -1) return false;
+        Hand.RemoveAt(index);
+        return true;
     }
 
     /// <summary>
@@ -34,6 +50,15 @@ public class BattleState(List<Character> characters, List<Card> cards)
     /// <returns>Whether the card was successfully played.</returns>
     public bool PlayCardFromHand(Guid cardId)
     {
-        throw new NotImplementedException();
+        var found = GetCardInHand(cardId);
+
+        // ReSharper disable once InvertIf
+        if (found?.Play(this) ?? false)
+        {
+            RemoveCardFromHand(cardId);
+            return true;
+        }
+
+        return false;
     }
 }

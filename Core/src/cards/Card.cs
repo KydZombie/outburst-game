@@ -2,11 +2,16 @@ using Outburst.Core.Battles;
 
 namespace Outburst.Core.Cards;
 
+/// <summary>
+/// An individual instance of a Card.
+/// </summary>
 public struct Card(CardData cardData)
 {
     public CardData Data { get; } = cardData;
 
-    // Unique identifier for this individual card instance.
+    /// <summary>
+    /// Unique identifier for this individual card instance.
+    /// </summary>
     public Guid CardId { get; } = Guid.NewGuid();
 
     public bool MeetsRequirements(BattleState battleState)
@@ -14,7 +19,7 @@ public struct Card(CardData cardData)
         return Data.Requirements.All(requirement => requirement.MeetsRequirements(battleState));
     }
 
-    public bool Play(BattleState battleState)
+    internal bool Play(BattleState battleState)
     {
         if (!MeetsRequirements(battleState)) return false;
         foreach (var requirement in Data.Requirements) requirement.TakeRequirements(battleState);

@@ -21,26 +21,32 @@ public class Character(string name, uint maxHealth)
         .ToDictionary(e => e, _ => 0u);
 
 
-    /// Deals damage without letting health go below zero
+    ///<summary>
+    ///Deals damage without letting health go below zero>
+    /// </summary>
+
     public void Damage(uint amount)
     {
         Health = amount >= Health ? 0 : Health - amount;
     }
-
+    /// <summary>
    ///Heals the character but never above MaxHealth.
+   /// </summary>
     public void Heal(uint amount)
     {
         Health = Math.Min(MaxHealth, Health + amount);
 
     }
-
+    /// <summary>
    ///Sets an emotion to an exact value.
+   /// </summary>
     public void SetEmotion(Emotion emotion, uint amount)
     {
         Emotions[emotion] = amount;
     }
-
+    /// <summary>
    /// Increases an emotion by a given amount (default is 1).
+   /// </summary>
     public void AddEmotion(Emotion emotion, uint amount = 1)
     {
         checked
@@ -50,31 +56,36 @@ public class Character(string name, uint maxHealth)
     }
 
 
+   ///<summary>
    /// Lowers an emotion but never below zero.
+   /// </summary>
     public void RemoveEmotion(Emotion emotion, uint amount)
     {
         Emotions[emotion] = amount >= Emotions[emotion] ? 0 : Emotions[emotion] - amount;
     }
-
+    //<summary>
    /// Resets a single emotion back to zero
+   /// </summary>
     public void ClearEmotion(Emotion emotion)
     {
         Emotions[emotion] = 0;
     }
 }
-// Factory for creating preset characters.
-// Keeps character creation consistent across the project.
-public static class CharacterFactory
+
+
+    /// <summary>
+    /// Creates the default roster of characters.
+    /// </summary>
+
+     public static List<Character> CreateDefaultCharacters()
 {
-    public static List<Character> CreateDefaultCharacters()
+    return new List<Character>
     {
-        return new List<Character>
-        {
-            new Character("Niko",   100),
-            new Character("Remi",   100),
-            new Character("Arna",   100),
-            new Character("Caelum", 100),
-            new Character("Syd",    100)
-        };
-    }
+        new Character("Niko",   100),
+        new Character("Remi",   100),
+        new Character("Arna",   100),
+        new Character("Caelum", 100),
+        new Character("Syd",    100)
+    };
 }
+

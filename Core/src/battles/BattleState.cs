@@ -11,7 +11,23 @@ public class BattleState(List<Character> characters, List<Card> cards)
 {
     public uint Energy { get; internal set; }
 
+    /// <summary>
+    /// Index of the character targeted by card effects (e.g. emotion or damage).
+    /// Default 0. Set before playing a card to choose the target.
+    /// </summary>
+    public int TargetCharacterIndex { get; set; } = 0;
+
     public List<Character> Characters { get; } = characters;
+
+    /// <summary>
+    /// Gets the character at <see cref="TargetCharacterIndex"/> if the index is valid.
+    /// </summary>
+    public Character? GetTargetCharacter()
+    {
+        if (TargetCharacterIndex < 0 || TargetCharacterIndex >= Characters.Count)
+            return null;
+        return Characters[TargetCharacterIndex];
+    }
 
     public List<Card> Deck { get; internal set; } = cards;
     public List<Card> Hand { get; internal set; } = [];

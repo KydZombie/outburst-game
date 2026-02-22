@@ -2,8 +2,20 @@ using Outburst.Core.Emotions;
 
 namespace Outburst.Core.Characters;
 
-public class Character(uint maxHealth)
+public class Character(string name, uint maxHealth)
 {
+    public const uint DefaultMaxHealth = 100;
+
+    public static List<Character> CreateDefaultCharacters() =>
+    [
+        new("Niko", DefaultMaxHealth),
+        new("Remi", DefaultMaxHealth),
+        new("Arna", DefaultMaxHealth),
+        new("Caelum", DefaultMaxHealth),
+        new("Syd", DefaultMaxHealth)
+    ];
+
+    public string Name { get; } = name;
     public uint Health { get; private set; } = maxHealth;
     public uint MaxHealth { get; } = maxHealth;
 
@@ -15,31 +27,40 @@ public class Character(uint maxHealth)
 
     public void Damage(uint amount)
     {
-        throw new NotImplementedException();
+        Health = amount >= Health ? 0 : Health - amount;
     }
 
     public void Heal(uint amount)
     {
-        throw new NotImplementedException();
+        var newHealth = Health + amount;
+        Health = newHealth > MaxHealth ? MaxHealth : newHealth;
     }
 
     public void SetEmotion(Emotion emotion, uint amount)
     {
-        throw new NotImplementedException();
+        if (amount == 0)
+            Emotions.Remove(emotion);
+        else
+            Emotions[emotion] = amount;
     }
 
     public void AddEmotion(Emotion emotion, uint amount = 1)
     {
-        throw new NotImplementedException();
+        Emotions.TryGetValue(emotion, out var current);
+        Emotions[emotion] = current + amount;
     }
 
     public void RemoveEmotion(Emotion emotion, uint amount)
     {
-        throw new NotImplementedException();
+        if (!Emotions.TryGetValue(emotion, out var current)) return;
+        if (amount >= current)
+            Emotions.Remove(emotion);
+        else
+            Emotions[emotion] = current - amount;
     }
 
     public void ClearEmotion(Emotion emotion)
     {
-        throw new NotImplementedException();
+        Emotions.Remove(emotion);
     }
 }

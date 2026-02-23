@@ -4,8 +4,6 @@ using Outburst.Core.Cards.Effects;
 using Outburst.Core.Cards.Requirements;
 using Outburst.Core.Characters;
 using Outburst.Core.Emotions;
-using Outburst.Core.Emotions.Effects;
-using Outburst.Core.Emotions.Requirements;
 using Outburst.Terminal;
 
 List<Character> characters = Character.CreateDefaultCharacters();

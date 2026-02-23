@@ -1,10 +1,13 @@
 using Outburst.Core.Battles;
-using Outburst.Core.Cards.Requirements;
 using Outburst.Core.Emotions;
 
-namespace Outburst.Core.Emotions.Requirements;
+namespace Outburst.Core.Cards.Requirements;
 
-public readonly record struct EmotionRequirement(Emotion Emotion, uint Amount) : IRequirement
+/// <summary>
+/// Requires the target character to have at least the given amount of an emotion.
+/// When <see cref="ConsumeOnPlay"/> is true, playing the card removes that amount from the target.
+/// </summary>
+public readonly record struct EmotionRequirement(Emotion Emotion, uint Amount, bool ConsumeOnPlay = true) : IRequirement
 {
     public bool MeetsRequirements(BattleState battleState)
     {
@@ -15,6 +18,7 @@ public readonly record struct EmotionRequirement(Emotion Emotion, uint Amount) :
 
     public void TakeRequirements(BattleState battleState)
     {
+        if (!ConsumeOnPlay) return;
         var target = battleState.GetTargetCharacter();
         target?.RemoveEmotion(Emotion, Amount);
     }

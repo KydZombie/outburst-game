@@ -1,8 +1,7 @@
 using Outburst.Core.Battles;
-using Outburst.Core.Cards.Effects;
 using Outburst.Core.Emotions;
 
-namespace Outburst.Core.Emotions.Effects;
+namespace Outburst.Core.Cards.Effects;
 
 public readonly record struct AddEmotionEffect(Emotion Emotion, uint Amount = 1) : IEffect
 {

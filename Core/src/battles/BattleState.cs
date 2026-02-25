@@ -7,7 +7,7 @@ namespace Outburst.Core.Battles;
 /// All the persistent state of a battle.
 /// </summary>
 /// <param name="cards">All cards that will be in the deck from the start of the battle.</param>
-public class BattleState(List<Character> characters, List<Card> cards)
+public class BattleState(List<Character> characters, Enemy enemy, List<Card> cards)
 {
     public uint Energy { get; internal set; }
 
@@ -28,6 +28,8 @@ public class BattleState(List<Character> characters, List<Card> cards)
             return null;
         return Characters[TargetCharacterIndex];
     }
+
+    public Enemy Enemy { get; } = enemy;
 
     public List<Card> Deck { get; internal set; } = cards;
     public List<Card> Hand { get; internal set; } = [];

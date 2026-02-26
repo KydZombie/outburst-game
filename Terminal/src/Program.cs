@@ -32,7 +32,8 @@ List<Card> cards =
     new(new CardData(
         "get_angry",
         new List<IRequirement>(),
-        new List<IEffect> { new AddEmotionEffect(Emotion.Angry, 2) }
+        new List<IEffect> { new AddEmotionEffect(Emotion.Angry, 2) },
+        true
     )),
     new(new CardData(
         "vent_anger",
@@ -40,7 +41,8 @@ List<Card> cards =
         new List<IEffect>
         {
             new PrintEffect("Vented anger!")
-        }
+        },
+        true
     ))
 ];
 

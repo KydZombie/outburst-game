@@ -10,5 +10,6 @@ namespace Outburst.Core.Cards;
 public record struct CardData(
     string Identifier,
     IReadOnlyList<IRequirement> Requirements,
-    IReadOnlyList<IEffect> Effects
+    IReadOnlyList<IEffect> Effects,
+    bool RequiresCharacterTarget = false
 );

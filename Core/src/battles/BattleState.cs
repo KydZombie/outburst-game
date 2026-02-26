@@ -79,4 +79,23 @@ public class BattleState(List<Character> characters, Enemy enemy, List<Card> car
 
         return false;
     }
+
+    public void EnemyAI()
+    {
+        if (Enemy.Health <= 20)
+        {
+            var healAmount = Enemy.MaxHealth / 3;
+
+            Enemy.Heal(healAmount);
+        }
+        else
+        {
+            Random random = new();
+
+            var targetIdx = random.Next(Characters.Count);
+            var attackAmount = Enemy.Power * 3;
+
+            Enemy.Attack(this, targetIdx, attackAmount);
+        }
+    }
 }

@@ -46,7 +46,7 @@ List<Card> cards =
 
 var game = new TerminalGameLoop(
     characters,
-    new Enemy("Jeff", 60),
+    new Enemy("Jeff", 60, 10),
     cards
 );
 

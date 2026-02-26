@@ -21,17 +21,25 @@ public class TerminalGameLoop
         {
             if (action is EnemyAttackAction attack)
             {
-
+                Console.WriteLine($"{((Enemy)sender!).Name} attacks {characters[attack.Target].Name} for {attack.Amount}");
+            }
+            else if (action is EnemyHealAction heal)
+            {
+                Console.WriteLine($"{((Enemy)sender!).Name} heals for {heal.Amount}");
             }
         };
 
         state.Enemy.OnDamaged += (sender, amount) =>
-            Console.WriteLine($"Enemy {((Enemy)sender!).Name} damaged for {amount}");
+        {
+            Console.WriteLine($"{((Enemy)sender!).Name} damaged for {amount}");
+        };
 
-        state.Enemy.OnHealed += (sender, amount) =>
-            Console.WriteLine($"Enemy {((Enemy)sender!).Name} healed for {amount}");
+        state.Enemy.OnDeath += (sender, e) =>
+        {
+            Console.WriteLine($"{((Enemy)sender!).Name} defeated");
+            shouldQuit = true;
+        };
     }
-
 
     public void Run()
     {
@@ -46,26 +54,26 @@ public class TerminalGameLoop
 
     private void PlayerTurn()
     {
-        Console.WriteLine("Player Turn");
+        Console.WriteLine("\nPlayer Turn");
 
         for (var i = 0; i < state.Hand.Count; i++)
         {
             var card = state.Hand[i];
-            Console.WriteLine($"{i+1} {card.Data.Identifier}");
+            Console.WriteLine($"{i + 1} {card.Data.Identifier}");
         }
         Console.WriteLine("# to play card. s to skip turn.");
 
         Console.Write("> ");
         var input = Console.ReadLine();
-        if (input is null) {
+        if (input is null)
+        {
             // Console.
         }
     }
 
     private void EnemyTurn()
     {
-        Console.WriteLine("starting enemy turn");
-
-        Console.WriteLine("ending enemy turn");
+        Console.WriteLine("\nEnemy Turn");
+        state.EnemyAI();
     }
 }

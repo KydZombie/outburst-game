@@ -1,10 +1,10 @@
-<Project Sdk="Godot.NET.Sdk/4.6.0">
+<Project Sdk="Godot.NET.Sdk/4.6.1">
     
     <ItemGroup>
-        <ProjectReference Include="..\Core\Outburst.Core.csproj"/>
+        <ProjectReference Include="..\Core\Outburst.Core.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="src\"/>
+        <Folder Include="src\" />
     </ItemGroup>
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>

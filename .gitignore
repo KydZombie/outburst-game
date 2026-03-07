@@ -79,6 +79,9 @@ mono_crash.*.json
 #   TOOLING / MISC.
 # ===================
 
+# VSCode
+.vscode/
+
 # Rider / JetBrains
 .idea/
 

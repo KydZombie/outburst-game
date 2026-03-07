@@ -145,6 +145,6 @@ public class TerminalGameLoop
     private void EnemyTurn()
     {
         Console.WriteLine("\nEnemy Turn");
-        state.EnemyAI();
+        state.DoEnemyAi();
     }
 }

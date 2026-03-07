@@ -80,7 +80,7 @@ public class BattleState(List<Character> characters, Enemy enemy, List<Card> car
         return false;
     }
 
-    public void EnemyAI()
+    public void DoEnemyAi()
     {
         if (Enemy.Health <= 20)
         {

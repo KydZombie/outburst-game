@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Card" format=3 uid="uid://bduejomsroduf"]
+
+[ext_resource type="Script" uid="uid://pi0hrgj8sq78" path="res://custom_resources/card.gd" id="1_3mayp"]
+[ext_resource type="Texture2D" uid="uid://oe7v35ii8vrs" path="res://Outburst Assets/art/tile_0102.png" id="1_ls3m6"]
+
+[resource]
+script = ExtResource("1_3mayp")
+id = "warrior_block"
+type = 3
+cost = 1
+icon = ExtResource("1_ls3m6")
+metadata/_custom_type_script = "uid://pi0hrgj8sq78"

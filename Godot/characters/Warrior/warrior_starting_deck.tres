@@ -1,0 +1,19 @@
+[gd_resource type="Resource" format=3 uid="uid://c4jhww5akufas"]
+
+[ext_resource type="Script" uid="uid://cmoxx4emq8u6" path="res://custom_resources/card_pile.gd" id="1_kubtc"]
+[ext_resource type="Resource" uid="uid://bvkwwy81tgdbg" path="res://characters/Warrior/Cards/warrior_axe_attack.tres" id="2_axe"]
+[ext_resource type="Resource" uid="uid://bduejomsroduf" path="res://characters/Warrior/Cards/warrior_block.tres" id="3_block"]
+
+[resource]
+script = ExtResource("1_kubtc")
+cards/0 = ExtResource("2_axe")
+cards/1 = ExtResource("2_axe")
+cards/2 = ExtResource("2_axe")
+cards/3 = ExtResource("2_axe")
+cards/4 = ExtResource("2_axe")
+cards/5 = ExtResource("3_block")
+cards/6 = ExtResource("3_block")
+cards/7 = ExtResource("3_block")
+cards/8 = ExtResource("3_block")
+cards/9 = ExtResource("3_block")
+metadata/_custom_type_script = "uid://cmoxx4emq8u6"

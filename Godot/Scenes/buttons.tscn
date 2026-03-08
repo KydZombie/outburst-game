@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://clwf47nh6e2vk"]
+
+[ext_resource type="Script" path="res://Scenes/buttons.gd" id="1_script"]
+[ext_resource type="StyleBox" uid="uid://dcgj85vcoeouw" path="res://non_selected_theme.tres" id="1_dc2ao"]
+[ext_resource type="StyleBox" uid="uid://d351d0hcg3t51" path="res://selected_button_theme.tres" id="2_m6m5g"]
+
+[node name="Button" type="Button" unique_id=1425871949]
+script = ExtResource("1_script")
+offset_right = 182.0
+offset_bottom = 63.0
+theme_override_styles/normal = ExtResource("1_dc2ao")
+theme_override_styles/pressed = ExtResource("2_m6m5g")
+theme_override_styles/hover = ExtResource("2_m6m5g")
+theme_override_styles/focus = ExtResource("2_m6m5g")

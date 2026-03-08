@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://crn0wtvdd04i0"]
+
+[ext_resource type="Texture2D" uid="uid://cpydvk8mq66o5" path="res://Outburst Assets/art/tile_0087.png" id="1_a3d8c"]
+[ext_resource type="PackedScene" uid="uid://bqwgqj3rps7cu" path="res://Scenes/UI/stats_ui.tscn" id="2_xpcdj"]
+[ext_resource type="Script" uid="uid://oa5mw6lcbbdg" path="res://Scenes/Player/player.gd" id="3_script"]
+[ext_resource type="Resource" uid="uid://b6k0t45wbb8cd" path="res://characters/Warrior/warrior.tres" id="4_warrior"]
+
+[node name="Player" type="Node2D" unique_id=1997533132 groups=["player"]]
+script = ExtResource("3_script")
+stats = ExtResource("4_warrior")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1894170710]
+texture = ExtResource("1_a3d8c")
+
+[node name="StatsUI" parent="." unique_id=575964411 instance=ExtResource("2_xpcdj")]
+offset_left = -43.0
+offset_top = 8.0
+offset_right = 47.0
+offset_bottom = 24.0

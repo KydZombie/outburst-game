@@ -1,0 +1,14 @@
+[gd_resource type="Resource" format=3 uid="uid://b6k0t45wbb8cd"]
+
+[ext_resource type="Script" uid="uid://c5e1kay5sq7hg" path="res://custom_resources/character.gd" id="1_aeq2v"]
+[ext_resource type="Resource" uid="uid://c4jhww5akufas" path="res://characters/Warrior/warrior_starting_deck.tres" id="2_deck"]
+[ext_resource type="Texture2D" uid="uid://cpydvk8mq66o5" path="res://Outburst Assets/art/tile_0087.png" id="3_art"]
+
+[resource]
+script = ExtResource("1_aeq2v")
+starting_deck = ExtResource("2_deck")
+cards_per_turn = 4
+max_mana = 3
+max_health = 35
+art = ExtResource("3_art")
+metadata/_custom_type_script = "uid://c5e1kay5sq7hg"

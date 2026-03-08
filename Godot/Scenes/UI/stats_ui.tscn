@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://bqwgqj3rps7cu"]
+
+[ext_resource type="Theme" uid="uid://vp8i8ashu3uu" path="res://Main_theme.tres" id="1_kmp8n"]
+[ext_resource type="Script" uid="uid://siju7ltxhjt3" path="res://Scenes/UI/stats_ui.gd" id="2_0l5yy"]
+[ext_resource type="Texture2D" uid="uid://oe7v35ii8vrs" path="res://Outburst Assets/art/tile_0102.png" id="2_i5px6"]
+[ext_resource type="Texture2D" uid="uid://d0edy7thj8ce6" path="res://Outburst Assets/art/heart.png" id="3_0l5yy"]
+
+[node name="StatsUI" type="HBoxContainer" unique_id=575964411]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_right = 45.0
+offset_bottom = 16.0
+grow_horizontal = 2
+theme = ExtResource("1_kmp8n")
+alignment = 1
+script = ExtResource("2_0l5yy")
+
+[node name="Block" type="HBoxContainer" parent="." unique_id=1669534769]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="BlockImage" type="TextureRect" parent="Block" unique_id=1928835844]
+layout_mode = 2
+texture = ExtResource("2_i5px6")
+stretch_mode = 5
+
+[node name="BlockLabel" type="Label" parent="Block" unique_id=114390194]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+text = "6"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Health" type="HBoxContainer" parent="." unique_id=533354810]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="HealthImage" type="TextureRect" parent="Health" unique_id=848962037]
+layout_mode = 2
+texture = ExtResource("3_0l5yy")
+stretch_mode = 5
+
+[node name="HealthLabel" type="Label" parent="Health" unique_id=1114783234]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+text = "6"
+horizontal_alignment = 1
+vertical_alignment = 1

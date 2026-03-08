@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://vp8i8ashu3uu"]
+
+[ext_resource type="FontFile" uid="uid://dskmdk146n4rq" path="res://Outburst Assets/art/pixel_rpg.ttf" id="1_g3jvk"]
+
+[resource]
+default_font = ExtResource("1_g3jvk")
+default_font_size = 6

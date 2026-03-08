@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://oyeqkscvtng8"]
+
+[ext_resource type="Texture2D" uid="uid://cp4iq5fd6j8be" path="res://Outburst Assets/art/background.png" id="1_hhhw0"]
+[ext_resource type="PackedScene" uid="uid://clwf47nh6e2vk" path="res://Scenes/buttons.tscn" id="2_w7tg1"]
+
+[node name="MainScreen" type="Node2D" unique_id=1649263841]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1377220404]
+modulate = Color(0.989691, 0.989691, 0.989691, 1)
+texture = ExtResource("1_hhhw0")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="." unique_id=1968277460]
+
+[node name="NEW GAME" parent="MenuLayer" unique_id=1425871949 instance=ExtResource("2_w7tg1")]
+offset_left = 56.0
+offset_top = 24.0
+offset_right = 192.0
+offset_bottom = 55.0
+text = "NEW GAME"
+reference_path = "res://Scenes/Battle/battle.tscn"
+start_focused = true
+
+[node name="OPTIONS" parent="MenuLayer" unique_id=1787046469 instance=ExtResource("2_w7tg1")]
+offset_left = 56.0
+offset_top = 64.0
+offset_right = 192.0
+offset_bottom = 95.0
+text = "OPTIONS"
+
+[node name="EXIT" parent="MenuLayer" unique_id=2082488273 instance=ExtResource("2_w7tg1")]
+offset_left = 56.0
+offset_top = 104.0
+offset_right = 192.0
+offset_bottom = 135.0
+text = "EXIT"
+quit_on_press = true

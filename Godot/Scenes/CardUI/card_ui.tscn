@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://bb3tx02an7lct"]
+
+[ext_resource type="Theme" uid="uid://vp8i8ashu3uu" path="res://Main_theme.tres" id="1_u2x3u"]
+[ext_resource type="Script" uid="uid://yp45kma6861s" path="res://Scenes/CardUI/card_ui.gd" id="2_p60uk"]
+[ext_resource type="StyleBox" uid="uid://ca18x0o0bdon4" path="res://Scenes/CardUI/card_base_stylebox.tres" id="3_3oatg"]
+[ext_resource type="Script" uid="uid://bnt573l6l7nxq" path="res://Scenes/CardUI/card_state_machine.gd" id="3_w4hys"]
+[ext_resource type="Texture2D" uid="uid://c6rme2o6dyaoj" path="res://Outburst Assets/art/tile_0104.png" id="4_2frll"]
+[ext_resource type="Script" uid="uid://bbgyl8sdel7te" path="res://Scenes/CardUI/card_states/card_base_state.gd" id="4_rog3d"]
+[ext_resource type="Script" uid="uid://duk86hvufwawp" path="res://Scenes/CardUI/card_states/card_clicking_state.gd" id="5_3oatg"]
+[ext_resource type="Script" uid="uid://q0sw3381bwn2" path="res://Scenes/CardUI/card_states/card_dragging_state.gd" id="6_2frll"]
+[ext_resource type="Script" uid="uid://u8v7s6e6k3xa" path="res://Scenes/CardUI/card_states/card_released_state.gd" id="7_h0xsb"]
+[ext_resource type="Script" uid="uid://c1xvsb88dftun" path="res://Scenes/CardUI/card_states/card_aiming_state.gd" id="8_w4hys"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u2x3u"]
+size = Vector2(25, 30)
+
+[node name="CardUI" type="Control" unique_id=565171500]
+custom_minimum_size = Vector2(25, 30)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -232.0
+offset_bottom = -114.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_u2x3u")
+script = ExtResource("2_p60uk")
+
+[node name="Panel" type="Panel" parent="." unique_id=798683595]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("3_3oatg")
+
+[node name="Cost" type="Label" parent="." unique_id=832169933]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 10.0
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="." unique_id=643661733]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_2frll")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DropPointDetecor" type="Area2D" parent="." unique_id=916475650]
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropPointDetecor" unique_id=805354254]
+position = Vector2(12, 15)
+shape = SubResource("RectangleShape2D_u2x3u")
+
+[node name="CardStateMachine" type="Node" parent="." unique_id=548173760]
+script = ExtResource("3_w4hys")
+
+[node name="CardBaseState" type="Node" parent="CardStateMachine" unique_id=1234753943]
+script = ExtResource("4_rog3d")
+
+[node name="CardClickedState" type="Node" parent="CardStateMachine" unique_id=711047252]
+script = ExtResource("5_3oatg")
+
+[node name="CardDraggingState" type="Node" parent="CardStateMachine" unique_id=139667152]
+script = ExtResource("6_2frll")
+
+[node name="CardReleasedState" type="Node" parent="CardStateMachine" unique_id=1684248190]
+script = ExtResource("7_h0xsb")
+
+[node name="CardAimingState" type="Node" parent="CardStateMachine" unique_id=978068016]
+script = ExtResource("8_w4hys")
+state = 3
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="area_entered" from="DropPointDetecor" to="." method="_on_drop_point_detecor_area_entered"]
+[connection signal="area_exited" from="DropPointDetecor" to="." method="_on_drop_point_detecor_area_exited"]

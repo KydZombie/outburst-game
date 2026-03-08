@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://45g68qu2bmlr"]
+
+[ext_resource type="PackedScene" uid="uid://clwf47nh6e2vk" path="res://Scenes/buttons.tscn" id="1_btn"]
+
+[node name="NewGame" type="Node2D" unique_id=342115242]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StartButton" parent="CanvasLayer" instance=ExtResource("1_btn")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -91.0
+offset_top = -31.5
+offset_right = 91.0
+offset_bottom = 31.5
+reference_path = "res://Scenes/Battle/battle.tscn"
+start_focused = true
+text = "Start"

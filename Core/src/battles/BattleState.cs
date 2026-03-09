@@ -90,12 +90,23 @@ public class BattleState(List<Character> characters, Enemy enemy, List<Card> car
         }
         else
         {
-            Random random = new();
-
-            var targetIdx = random.Next(Characters.Count);
+            var targetIdx = GetTargetIndex();
             var attackAmount = Enemy.Power * 3;
 
             Enemy.Attack(this, targetIdx, attackAmount);
         }
+    }
+
+    private int GetTargetIndex()
+    {
+        Random random = new();
+        var targetIdx = random.Next(Characters.Count);
+
+        while (Characters[targetIdx].Health == 0)
+        {
+            targetIdx = random.Next(Characters.Count);
+        }
+
+        return targetIdx;
     }
 }

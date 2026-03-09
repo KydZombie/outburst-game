@@ -16,6 +16,7 @@ public class Character(string name, uint maxHealth)
     ];
 
     public string Name { get; } = name;
+
     public uint Health { get; private set; } = maxHealth;
     public uint MaxHealth { get; } = maxHealth;
 
@@ -25,15 +26,25 @@ public class Character(string name, uint maxHealth)
     /// </summary>
     public Dictionary<Emotion, uint> Emotions { get; } = new();
 
-    public void Damage(uint amount)
-    {
-        Health = amount >= Health ? 0 : Health - amount;
-    }
-
     public void Heal(uint amount)
     {
-        var newHealth = Health + amount;
-        Health = newHealth > MaxHealth ? MaxHealth : newHealth;
+        var healAmount = Math.Min(amount, MaxHealth - Health);
+
+        Health += healAmount;
+    }
+
+    public event EventHandler? OnDeath;
+
+    public void Damage(uint amount)
+    {
+        var damageAmount = Math.Min(amount, Health);
+
+        Health -= damageAmount;
+
+        if (Health == 0)
+        {
+            OnDeath?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public void SetEmotion(Emotion emotion, uint amount)

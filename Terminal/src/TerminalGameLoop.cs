@@ -17,6 +17,27 @@ public class TerminalGameLoop
             cards
         );
 
+        foreach (Character character in state.Characters)
+        {
+            character.OnDeath += (sender, e) =>
+            {
+                Console.WriteLine($"{((Character)sender!).Name} defeated");
+
+                var anyAlive = false;
+
+                foreach (Character character in state.Characters)
+                {
+                    if (character.Health > 0)
+                    {
+                        anyAlive = true;
+                        break;
+                    }
+                }
+
+                shouldQuit = !anyAlive;
+            };
+        }
+
         state.Enemy.OnAction += (sender, action) =>
         {
             if (action is EnemyAttackAction attack)
@@ -42,12 +63,10 @@ public class TerminalGameLoop
     {
         for (var i = 0; i < 3; i++) state.DrawCard();
 
-        while (true)
+        while (shouldQuit == false)
         {
             PlayerTurn();
-            if (shouldQuit) break;
             EnemyTurn();
-            if (shouldQuit) break;
         }
     }
 
@@ -55,35 +74,33 @@ public class TerminalGameLoop
     {
         do
         {
-            Console.WriteLine("\nPlayer Turn");
+            if (shouldQuit == true) { return; }
 
-            Console.WriteLine($"Energy: {state.Energy}");
+            Console.WriteLine("\nPLAYER TURN");
 
-            Console.Write("Characters: ");
+            Console.WriteLine($"ENERGY: {state.Energy}");
+
+            Console.WriteLine("CHARACTERS:");
             for (var i = 0; i < state.Characters.Count; i++)
             {
                 var character = state.Characters[i];
-                Console.Write($"{i + 1}) {character.Name} {character.Health}/{character.MaxHealth} ");
+                Console.Write($"[{i + 1}] {character.Name}: ({character.Health}/{character.MaxHealth}) ");
 
                 if (character.Emotions.Count > 0)
                     foreach (var emotion in character.Emotions)
-                        Console.Write($"{emotion.Key}: {emotion.Value} ");
+                        Console.Write($" [{emotion.Key}: {emotion.Value}]");
+
             }
 
-            Console.WriteLine();
-
-            Console.Write("Cards: ");
+            Console.WriteLine("\nCARDS:");
 
             for (var i = 0; i < state.Hand.Count; i++)
             {
                 var card = state.Hand[i];
-                Console.Write($"{i + 1}) {card.Data.Identifier} ");
+                Console.Write($"[{i + 1}] {card.Data.Identifier} ");
             }
 
-            Console.WriteLine();
-
-            Console.WriteLine(
-                "# to play card. d to draw a card and end your turn. s to skip turn without drawing. q to quit.");
+            Console.WriteLine("\n\n[#] to play card. [d] to draw a card and end your turn. [s] to skip turn without drawing. [q] to quit.");
 
             Console.Write("> ");
 
@@ -137,13 +154,13 @@ public class TerminalGameLoop
                         return;
                 }
             }
-
-            Console.ReadLine();
         } while (true);
     }
 
     private void EnemyTurn()
     {
+        if (shouldQuit == true) { return; }
+
         Console.WriteLine("\nEnemy Turn");
         state.DoEnemyAi();
     }

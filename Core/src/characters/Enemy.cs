@@ -22,16 +22,16 @@ public class Enemy(string name, uint maxHealth, uint power)
     {
         var attackAmount = Math.Min(amount, state.Characters[targetIdx].Health);
 
-        state.Characters[targetIdx].Damage(attackAmount);
         OnAction?.Invoke(this, new EnemyAttackAction(targetIdx, attackAmount));
+        state.Characters[targetIdx].Damage(attackAmount);
     }
 
     public void Heal(uint amount)
     {
         var healAmount = Math.Min(amount, MaxHealth - Health);
 
-        Health += healAmount;
         OnAction?.Invoke(this, new EnemyHealAction(healAmount));
+        Health += healAmount;
     }
 
     public event EventHandler? OnDeath;
@@ -41,8 +41,8 @@ public class Enemy(string name, uint maxHealth, uint power)
     {
         var damageAmount = Math.Min(amount, Health);
 
-        Health -= damageAmount;
         OnDamaged?.Invoke(this, damageAmount);
+        Health -= damageAmount;
 
         if (Health == 0)
         {

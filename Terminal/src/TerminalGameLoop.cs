@@ -17,6 +17,8 @@ public class TerminalGameLoop
             cards
         );
 
+        state.ShuffleDeck();
+
         foreach (Character character in state.Characters)
         {
             character.OnDeath += (sender, e) =>

@@ -80,6 +80,12 @@ public class BattleState(List<Character> characters, Enemy enemy, List<Card> car
         return false;
     }
 
+    public void ShuffleDeck()
+    {
+        Random rng = new();
+        Deck = Deck.OrderBy(_ => rng.Next()).ToList();
+    }
+
     public void DoEnemyAi()
     {
         if (Enemy.Health <= 20)
@@ -102,10 +108,7 @@ public class BattleState(List<Character> characters, Enemy enemy, List<Card> car
         Random random = new();
         var targetIdx = random.Next(Characters.Count);
 
-        while (Characters[targetIdx].Health == 0)
-        {
-            targetIdx = random.Next(Characters.Count);
-        }
+        while (Characters[targetIdx].Health == 0) targetIdx = random.Next(Characters.Count);
 
         return targetIdx;
     }

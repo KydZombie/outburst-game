@@ -1,0 +1,183 @@
+[gd_scene format=3 uid="uid://ddcqrxoc47b7m"]
+
+[ext_resource type="Script" uid="uid://diwp54t44ud12" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
+[ext_resource type="AudioStream" uid="uid://dpdenqqbovwfq" path="res://art/8_bit_iced_village_lofi.mp3" id="3_music"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.12, 0.14, 0.22, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.35, 0.55, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="Animation" id="Animation_title_pulse"]
+resource_name = "title_pulse"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Title:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_main"]
+_data = {
+&"title_pulse": SubResource("Animation_title_pulse")
+}
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_embers"]
+emission_shape = 1
+emission_sphere_radius = 400.0
+direction = Vector3(0, -1, 0)
+spread = 30.0
+initial_velocity_min = 8.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, -5, 0)
+scale_min = 0.15
+scale_max = 0.4
+color = Color(1, 0.6, 0.2, 0.7)
+
+[node name="MainMenu" type="Control" unique_id=1539778756]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1326798000]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="." unique_id=1160245962]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.00003
+offset_top = 40.000008
+offset_right = 217.0
+offset_bottom = 164.0
+grow_horizontal = 2
+scale = Vector2(1.2762723, 1.2445481)
+theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_font_sizes/font_size = 90
+text = "OUTBURST"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuContainer" type="VBoxContainer" parent="." unique_id=62145252]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -98.0
+offset_right = 146.0
+offset_bottom = 282.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="MenuContainer" unique_id=893867331]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+text = "Play"
+
+[node name="ContinueButton" type="Button" parent="MenuContainer" unique_id=408962262]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+text = "Continue"
+
+[node name="SettingsButton" type="Button" parent="MenuContainer" unique_id=2011300388]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+text = "Settings"
+
+[node name="CreditsButton" type="Button" parent="MenuContainer" unique_id=955025995]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+text = "Credits"
+
+[node name="QuitButton" type="Button" parent="MenuContainer" unique_id=1881666678]
+custom_minimum_size = Vector2(300, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+text = "Quit"
+
+[node name="VersionLabel" type="Label" parent="." unique_id=544546120]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -40.0
+offset_right = 120.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.65, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "Version 0.1"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1035181941]
+libraries/ = SubResource("AnimationLibrary_main")
+autoplay = &"title_pulse"
+
+[node name="Particles" type="GPUParticles2D" parent="." unique_id=2065801591]
+z_index = -1
+amount = 80
+lifetime = 4.0
+visibility_rect = Rect2(-100, -100, 1480, 920)
+process_material = SubResource("ParticleProcessMaterial_embers")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=910913967]
+stream = ExtResource("3_music")
+autoplay = true

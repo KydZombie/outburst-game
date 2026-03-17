@@ -1,0 +1,20 @@
+[gd_resource type="Theme" load_steps=2 format=3]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.043, 0.059, 0.118, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[resource]
+default_font_size = 14
+StyleBoxFlat/bg = SubResource("StyleBoxFlat_bg")
+colors/font_primary = Color(0.95, 0.95, 1, 1)
+colors/font_secondary = Color(0.7, 0.72, 0.8, 1)
+colors/player_health = Color(0.204, 0.827, 0.6, 1)
+colors/enemy_health = Color(1, 0.231, 0.231, 1)
+colors/energy = Color(0.98, 0.8, 0.082, 1)
+colors/panel = Color(0.071, 0.094, 0.176, 1)
+colors/card_base = Color(0.106, 0.137, 0.239, 1)
+colors/hover_glow = Color(0.165, 0.231, 0.435, 1)

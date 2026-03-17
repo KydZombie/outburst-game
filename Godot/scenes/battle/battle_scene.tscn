@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" path="res://art/block.ogg" id="13_draw"]
 [ext_resource type="AudioStream" path="res://art/axe.ogg" id="14_hover"]
 [ext_resource type="Script" path="res://scripts/audio_manager.gd" id="15_audio"]
+[ext_resource type="Script" path="res://scripts/GodotBattleAdapter.cs" id="16_core_adapter"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0.07247489, 0.05819224, 0.06524573, 0)
@@ -110,6 +111,9 @@ script = ExtResource("1_script")
 
 [node name="AudioManager" type="Node" parent="." unique_id=900000001]
 script = ExtResource("15_audio")
+
+[node name="CoreAdapter" type="Node" parent="." unique_id=900000010]
+script = ExtResource("16_core_adapter")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=900000002]
 stream = ExtResource("11_music")

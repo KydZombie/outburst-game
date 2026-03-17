@@ -18,6 +18,7 @@ var card_effects: CardEffects
 var enemy_ai: EnemyAI
 var turn_manager: TurnManager
 var input_controller: InputController
+var _core_adapter: Node
 
 var _party: Array[Dictionary] = []
 var _enemies: Array[Dictionary] = []
@@ -40,6 +41,11 @@ func _ready() -> void:
 	add_child(enemy_ai)
 	add_child(turn_manager)
 	add_child(input_controller)
+	_core_adapter = get_tree().get_root().get_node_or_null("BattleScene/CoreAdapter")
+	if _core_adapter and _core_adapter.has_signal("EnemyHealed"):
+		_core_adapter.EnemyHealed.connect(func(amount: int) -> void:
+			enemy_heal_action.emit(amount)
+		)
 	_init_state()
 	turn_manager.setup(enemy_ai, combat_resolver, deck_manager)
 	_connect_signals()
@@ -108,6 +114,7 @@ func request_play_card(card_data: Dictionary) -> void:
 	_energy = mini(effect["energy"], _max_energy)
 	card_played.emit(card_data)
 	card_effect_for_ui.emit(card_data)
+	_sync_from_core_snapshot()
 	_update_enemy_intent()
 	_emit_full_state()
 	_check_game_ended()
@@ -139,14 +146,41 @@ func _meets_requirements(card_data: Dictionary) -> bool:
 func _on_play_card_by_index(index: int) -> void:
 	var hand: Array[Dictionary] = deck_manager.get_hand()
 	if index >= 0 and index < hand.size():
+		if _core_adapter and _core_adapter.has_method("PlayCardByIndex"):
+			_core_adapter.PlayCardByIndex(index, _target_character_index)
 		request_play_card(hand[index])
 
 func _on_draw_requested() -> void:
 	# D = draw 1 card then end turn (match Terminal "d")
 	if deck_manager.get_deck_size() > 0 or deck_manager.get_discard_size() > 0:
+		if _core_adapter and _core_adapter.has_method("DrawCard"):
+			_core_adapter.DrawCard()
 		deck_manager.draw_cards(1)
 	_emit_full_state()
 	_end_turn()
+
+func _sync_from_core_snapshot() -> void:
+	if not _core_adapter:
+		return
+	if not _core_adapter.has_method("GetSnapshot"):
+		return
+	var snapshot: Dictionary = _core_adapter.GetSnapshot()
+	var core_party: Array = snapshot.get("party", [])
+	var core_enemies: Array = snapshot.get("enemies", [])
+	if core_party.size() == _party.size():
+		for i in range(core_party.size()):
+			var src: Dictionary = core_party[i]
+			var dst: Dictionary = _party[i]
+			dst["hp"] = src.get("hp", dst.get("hp", 100))
+			dst["max_hp"] = src.get("max_hp", dst.get("max_hp", 100))
+			dst["emotions"] = src.get("emotions", dst.get("emotions", {}))
+	if core_enemies.size() > 0 and _enemies.size() > 0:
+		var src_e: Dictionary = core_enemies[0]
+		var dst_e: Dictionary = _enemies[0]
+		dst_e["hp"] = src_e.get("hp", dst_e.get("hp", 60))
+		dst_e["max_hp"] = src_e.get("max_hp", dst_e.get("max_hp", 60))
+		if src_e.has("power"):
+			dst_e["power"] = src_e.get("power", dst_e.get("power", 4))
 
 func _on_end_turn_requested() -> void:
 	if _battle_over:

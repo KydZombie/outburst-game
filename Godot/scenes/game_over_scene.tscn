@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/ui/game_over_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
+[ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="3_win"]
+[ext_resource type="AudioStream" uid="uid://k8m4o3hlwm7l" path="res://art/enemy_block.ogg" id="4_loss"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
 bg_color = Color(0.12, 0.14, 0.22, 0.9)
@@ -23,6 +25,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
+
+[node name="SFX_Win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_win")
+volume_db = -4.0
+
+[node name="SFX_Loss" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_loss")
+volume_db = -3.0
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -68,7 +78,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
-text = "Back to Menu"
+text = "Main menu"
 
 [node name="RetryButton" type="Button" parent="CenterContainer/VBox/ButtonRow"]
 custom_minimum_size = Vector2(160, 56)

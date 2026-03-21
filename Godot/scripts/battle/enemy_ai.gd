@@ -4,8 +4,8 @@ class_name EnemyAI
 
 func get_enemy_intent_value(enemies: Array[Dictionary]) -> int:
 	if enemies.is_empty():
-		return 12
-	return enemies[0].get("intent_value", 12) as int
+		return 30
+	return enemies[0].get("intent_value", 30) as int
 
 func get_enemy_intent_type(enemies: Array[Dictionary]) -> String:
 	if enemies.is_empty():
@@ -56,7 +56,8 @@ func decide_action(party: Array[Dictionary], enemies: Array[Dictionary]) -> Dict
 	var power: int = e.get("power", 10) as int
 	if hp <= 20 and max_hp > 0:
 		result["action"] = "heal"
-		result["heal_amount"] = max_hp / 3
+		# Enemy heals for (max_hp / 3) with integer truncation.
+		result["heal_amount"] = floori(float(max_hp) / 3.0)
 		return result
 	result["action"] = "attack"
 	result["target_idx"] = choose_target_index(party)

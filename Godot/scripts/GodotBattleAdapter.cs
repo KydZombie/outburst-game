@@ -5,10 +5,7 @@ using Outburst.Core.Battles;
 using Outburst.Core.Cards;
 using Outburst.Core.Characters;
 
-// Alias to avoid confusion with the Outburst.Godot namespace name.
 using GCollections = Godot.Collections;
-
-namespace Outburst.Godot;
 
 /// <summary>
 /// Thin adapter that exposes the Core BattleState to Godot via

@@ -1,166 +1,171 @@
 extends Control
 class_name BattleUIManager
-## Orchestrates battle UI only: wires BattleManager to node refs and delegates to UI helpers.
-## Game logic stays in BattleManager; portraits/panels/effects live in scripts/battle/ui/.
+## Thin coordinator: wires node refs, systems, and UI helper modules.
 
 const CARD_SCENE := preload("res://scenes/card_ui.tscn")
 const CARD_STYLE_BASE := preload("res://resources/card_base_stylebox.tres")
 const CARD_STYLE_HOVER := preload("res://resources/card_hover_stylebox.tres")
 const CARD_STYLE_DRAG := preload("res://resources/card_drag_stylebox.tres")
 const GAME_OVER_SCENE_PATH := "res://scenes/game_over_scene.tscn"
+const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
+const _TargetingScript := preload("res://scripts/battle/ui/battle_ui_targeting.gd")
+const _RuntimeScript := preload("res://scripts/battle/ui/battle_ui_runtime.gd")
 
 var _refs: BattleUINodeRefs
 var _hand_manager: HandManager
 var _drag_system: CardDragSystem
 var _battle_manager: BattleManager
 var _deck_manager: DeckManager
-
-func _get_audio_manager() -> AudioManager:
-	return get_tree().get_root().get_node_or_null("BattleScene/AudioManager") as AudioManager
+var _last_state: Dictionary = {}
+var _targeting: RefCounted
+var _runtime: RefCounted
 
 func _ready() -> void:
 	_refs = BattleUINodeRefs.new()
 	_refs.find_from(self)
-	_create_battle_systems()
-	_setup_hand_and_drag()
-	_connect_battle_signals()
-	call_deferred("_deferred_refresh_hand")
-	if _refs.end_turn_btn:
-		_refs.end_turn_btn.pressed.connect(func() -> void: _battle_manager._end_turn())
-		_refs.end_turn_btn.mouse_entered.connect(_on_end_turn_hover.bind(true))
-		_refs.end_turn_btn.mouse_exited.connect(_on_end_turn_hover.bind(false))
-
-func _create_battle_systems() -> void:
+	BattleHintTheme.apply_play_zone_label(_refs.target_prompt)
+	BattleHintTheme.apply_play_zone_richtext(_refs.angry_combo_hint)
+	BattleHintTheme.apply_controls_hint(_refs.controls_label)
 	_battle_manager = BattleManager.new()
 	add_child(_battle_manager)
 	_deck_manager = _battle_manager.deck_manager
 
-func _setup_hand_and_drag() -> void:
-	if not _refs.hand_container:
-		return
 	_hand_manager = HandManager.new()
 	add_child(_hand_manager)
 	_drag_system = CardDragSystem.new()
 	add_child(_drag_system)
-	if _refs.drag_layer:
-		var drop_area := _refs.play_zone if _refs.play_zone else _refs.right_panel
+	if _refs.drag_layer and _refs.hand_container:
+		var drop_area: Control = _refs.play_zone if _refs.play_zone else _refs.right_panel
 		_drag_system.setup(_refs.hand_container, _refs.drag_layer, drop_area)
-	_hand_manager.setup(_refs.hand_container, CARD_SCENE, _drag_system, CARD_STYLE_BASE, CARD_STYLE_HOVER, CARD_STYLE_DRAG)
+	if _refs.hand_container:
+		_hand_manager.setup(_refs.hand_container, CARD_SCENE, _drag_system, CARD_STYLE_BASE, CARD_STYLE_HOVER, CARD_STYLE_DRAG)
 	_hand_manager.card_played.connect(func(card_data: Dictionary) -> void: _battle_manager.request_play_card(card_data))
-	_drag_system.card_drag_ended.connect(_on_drag_ended)
+	_hand_manager.hand_hover_changed.connect(func(_card_id: String) -> void:
+		if _runtime:
+			_runtime.refresh_angry_combo_play_zone_hint()
+	)
+	_drag_system.card_drag_ended.connect(func(card_ui: Control, play_requested: bool) -> void:
+		_targeting.on_drag_ended(card_ui, play_requested, _hand_manager, _battle_manager, _last_state)
+		if _runtime:
+			_runtime.refresh_angry_combo_play_zone_hint()
+	)
 
-func _on_drag_ended(card_ui: Control, play_requested: bool) -> void:
-	if play_requested and card_ui.get("card_data"):
-		_battle_manager.request_play_card(card_ui.card_data)
-	elif _hand_manager and _hand_manager.has_method("_update_fan_layout"):
-		_hand_manager._update_fan_layout()
+	_targeting = _TargetingScript.new()
+	_runtime = _RuntimeScript.new()
+	_runtime.setup(self, _refs, _hand_manager, _battle_manager, _deck_manager, GAME_OVER_SCENE_PATH)
+	_targeting.setup(self, _refs, _battle_manager.input_controller, func() -> void:
+		_runtime.refresh_angry_combo_play_zone_hint()
+	)
+	_battle_manager.target_skill_hotkey_needs_party.connect(func(card: Dictionary) -> void:
+		_last_state = _battle_manager.get_current_state()
+		_targeting.begin_target_skill_from_hotkey(card, _last_state)
+	)
+	_battle_manager.input_controller.party_target_pressed.connect(_on_party_target_key)
+	_battle_manager.input_controller.main_menu_requested.connect(func() -> void:
+		var tree := get_tree()
+		if tree:
+			tree.change_scene_to_file(MAIN_MENU_PATH)
+	)
 
-func _connect_battle_signals() -> void:
-	_battle_manager.state_changed.connect(_on_state_changed)
-	_battle_manager.energy_changed.connect(_on_energy_changed)
-	_battle_manager.enemy_intent_changed.connect(_on_enemy_intent_changed)
-	_battle_manager.card_effect_for_ui.connect(_on_card_played_from_logic)
-	_battle_manager.battle_ended.connect(_on_battle_ended)
-	_battle_manager.target_character_changed.connect(func(_i: int) -> void: _refresh_initial_state())
-	_deck_manager.hand_changed.connect(_on_hand_changed)
-	_deck_manager.deck_discard_changed.connect(_on_deck_discard_changed)
-	_setup_party_row_clicks()
-	_refresh_initial_state()
+	if _refs.end_turn_btn:
+		_refs.end_turn_btn.pressed.connect(func() -> void: _battle_manager._on_end_turn_requested())
+		_refs.end_turn_btn.mouse_entered.connect(func() -> void: _runtime.on_end_turn_hover(true))
+		_refs.end_turn_btn.mouse_exited.connect(func() -> void: _runtime.on_end_turn_hover(false))
+	if _refs.draw_card_btn:
+		_refs.draw_card_btn.pressed.connect(func() -> void: _battle_manager._on_draw_requested())
+		_refs.draw_card_btn.mouse_entered.connect(func() -> void: _refs.draw_card_btn.scale = Vector2(1.03, 1.03))
+		_refs.draw_card_btn.mouse_exited.connect(func() -> void: _refs.draw_card_btn.scale = Vector2(1, 1))
 
-func _setup_party_row_clicks() -> void:
-	if not _refs.party_list:
-		return
-	for i in range(_refs.party_list.get_child_count()):
-		var row: Control = _refs.party_list.get_child(i) as Control
-		if row:
-			row.mouse_filter = Control.MOUSE_FILTER_STOP
-			row.gui_input.connect(_on_party_row_gui_input.bind(i))
+	_battle_manager.state_changed.connect(func(state: Dictionary) -> void:
+		_last_state = state
+		_runtime.on_state_changed(state, _targeting.current_highlight_index())
+	)
+	_battle_manager.energy_changed.connect(_runtime.on_energy_changed)
+	_battle_manager.enemy_intent_changed.connect(_runtime.on_enemy_intent_changed)
+	_battle_manager.card_effect_for_ui.connect(func(card_data: Dictionary) -> void:
+		_targeting.on_card_played(_last_state)
+		_runtime.on_card_played_from_logic(card_data)
+	)
+	_battle_manager.battle_ended.connect(_runtime.on_battle_ended)
+	_battle_manager.enemy_attacked.connect(func(idx: int, dmg: int) -> void: _runtime.on_enemy_attack(idx, dmg))
+	_battle_manager.enemy_hit.connect(func(dmg: int) -> void: _runtime.on_enemy_hit(dmg))
+	_battle_manager.target_character_changed.connect(func(_i: int) -> void:
+		_last_state = _runtime.refresh_initial_state()
+	)
+	_battle_manager.ally_buffed.connect(func(idx: int, cd: Dictionary) -> void: _runtime.on_ally_buffed(idx, cd))
+	_battle_manager.player_turn_ready.connect(func(t: int) -> void: _runtime.on_player_turn_ready(t))
+	_battle_manager.enemy_turn_started.connect(func() -> void: _runtime.on_enemy_turn_started())
+	_battle_manager.turn_auto_skipped.connect(func(reason: String) -> void: _runtime.on_turn_auto_skipped(reason))
+	_battle_manager.enemy_heal_action.connect(func(amount: int) -> void: _runtime.on_enemy_healed(amount))
+	_deck_manager.hand_changed.connect(_runtime.on_hand_changed)
+	_deck_manager.deck_discard_changed.connect(_runtime.on_deck_discard_changed)
+	_deck_manager.deck_reshuffled.connect(func() -> void: _runtime.on_deck_reshuffled())
 
-func _on_party_row_gui_input(event: InputEvent, party_index: int) -> void:
-	if event is InputEventMouseButton:
-		var ev: InputEventMouseButton = event as InputEventMouseButton
-		if ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
-			_battle_manager.set_target_character_index(party_index)
+	if _refs.party_list:
+		for i in range(_refs.party_list.get_child_count()):
+			var row: Control = _refs.party_list.get_child(i) as Control
+			if row:
+				var idx: int = i
+				row.mouse_filter = Control.MOUSE_FILTER_STOP
+				row.gui_input.connect(func(event: InputEvent) -> void:
+					_targeting.on_party_row_gui_input(event, idx, _battle_manager, _last_state)
+				)
+				row.mouse_entered.connect(func() -> void: _targeting.on_party_row_hovered(idx, true, _last_state))
+				row.mouse_exited.connect(func() -> void: _targeting.on_party_row_hovered(idx, false, _last_state))
+
+	if _refs.deck_counter_panel:
+		_make_panel_receive_clicks(_refs.deck_counter_panel)
+		_refs.deck_counter_panel.gui_input.connect(func(event: InputEvent) -> void:
+			if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+				_runtime.show_deck_list_popup()
+		)
+	if _refs.discard_counter_panel:
+		_make_panel_receive_clicks(_refs.discard_counter_panel)
+		_refs.discard_counter_panel.gui_input.connect(func(event: InputEvent) -> void:
+			if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+				_runtime.show_discard_list_popup()
+		)
+
+	_last_state = _runtime.refresh_initial_state()
+	call_deferred("_deferred_refresh_hand")
+
+func transition_to_game_over(scene_path: String) -> void:
+	if scene_path.is_empty():
+		scene_path = GAME_OVER_SCENE_PATH
+	var tree := get_tree()
+	if tree:
+		tree.change_scene_to_file(scene_path)
 
 func _deferred_refresh_hand() -> void:
-	if not _hand_manager or not _refs.hand_container:
+	_runtime.deferred_refresh_hand()
+
+func _process(_delta: float) -> void:
+	_targeting.on_process(_last_state)
+
+
+func _on_party_target_key(slot: int) -> void:
+	_targeting.confirm_party_target_at_index(slot, _battle_manager, _last_state)
+
+
+## Deck/discard panels contain Labels that steal clicks; ignore mouse on children so the panel gets gui_input.
+func _make_panel_receive_clicks(panel: Control) -> void:
+	if not panel:
 		return
-	var hand: Array[Dictionary] = _deck_manager.get_hand()
-	if hand.size() > 0:
-		_hand_manager.set_hand_from_data(hand)
-	call_deferred("_deferred_layout_hand")
+	panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	for c in panel.get_children():
+		_set_mouse_ignore_recursive(c)
 
-func _deferred_layout_hand() -> void:
-	if _hand_manager and _hand_manager.has_method("_update_fan_layout"):
-		_hand_manager._update_fan_layout()
+func _set_mouse_ignore_recursive(node: Node) -> void:
+	if node is Control:
+		(node as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for c in node.get_children():
+		_set_mouse_ignore_recursive(c)
 
-func _on_end_turn_hover(entered: bool) -> void:
-	if not _refs.end_turn_btn:
-		return
-	_refs.end_turn_btn.modulate = Color(1.15, 1.15, 1.15) if entered else Color.WHITE
-	var t := create_tween()
-	if entered:
-		t.tween_property(_refs.end_turn_btn, "scale", Vector2(1.05, 1.05), 0.1)
-	else:
-		t.tween_property(_refs.end_turn_btn, "scale", Vector2(1, 1), 0.1)
-
-func _on_state_changed(state: Dictionary) -> void:
-	var party: Array = state.get("party", [])
-	var enemies: Array = state.get("enemies", [])
-	var target_idx: int = state.get("target_character_index", 0) as int
-	BattleUIPanels.refresh_party(_refs.party_list, party, target_idx)
-	BattleUIPanels.refresh_enemy(_refs.enemy_name, _refs.enemy_hp, _refs.enemy_portrait, enemies)
-
-func _on_energy_changed(energy: int, max_energy: int) -> void:
-	if _refs.energy_display:
-		_refs.energy_display.text = "Energy: %d / %d" % [energy, max_energy]
-	if _hand_manager:
-		_hand_manager.set_energy(energy)
-
-func _on_enemy_intent_changed(intent_value: int, intent_type: String = "attack") -> void:
-	if _refs.enemy_intent:
-		if intent_type == "heal":
-			_refs.enemy_intent.text = "Heal %d" % intent_value
-		else:
-			_refs.enemy_intent.text = "⚔ %d" % intent_value
-
-func _on_hand_changed(hand: Array[Dictionary]) -> void:
-	if _hand_manager:
-		_hand_manager.set_hand_from_data(hand)
-	call_deferred("_deferred_layout_hand")
-	var am := _get_audio_manager()
-	if am:
-		am.draw_card()
-
-func _on_deck_discard_changed(deck_size: int, discard_size: int) -> void:
-	if _refs.deck_counter:
-		_refs.deck_counter.text = str(deck_size)
-	if _refs.discard_counter:
-		_refs.discard_counter.text = str(discard_size)
-
-func _refresh_initial_state() -> void:
-	var state: Dictionary = _battle_manager.get_current_state()
-	_on_state_changed(state)
-	_on_energy_changed(state.get("energy", 0), state.get("max_energy", 4))
-	var enemies: Array = state.get("enemies", [])
-	if enemies.size() > 0:
-		var e0: Dictionary = enemies[0]
-		_on_enemy_intent_changed(e0.get("intent_value", 12) as int, e0.get("intent_type", "attack") as String)
-	_on_deck_discard_changed(state.get("deck_size", 0), state.get("discard_size", 0))
-	var hand: Array = state.get("hand", [])
-	if _hand_manager and hand.size() > 0:
-		_hand_manager.set_hand_from_data(hand)
-	call_deferred("_deferred_layout_hand")
-
-func _on_card_played_from_logic(card_data: Dictionary) -> void:
-	var am := _get_audio_manager()
-	if am:
-		am.play_card()
-	BattleUIPlayEffect.show_effect(_refs.play_effect, card_data)
-
-func _on_battle_ended(result: String) -> void:
-	BattleResult.set_result(result == "win")
-	get_tree().change_scene_to_file(GAME_OVER_SCENE_PATH)
-
-func _input(_event: InputEvent) -> void:
-	pass
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		var ek := event as InputEventKey
+		if ek.physical_keycode == KEY_ESCAPE:
+			if _targeting.cancel_target_skill_if_active(_last_state):
+				var vp := get_viewport()
+				if vp:
+					vp.set_input_as_handled()

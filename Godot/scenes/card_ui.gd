@@ -1,9 +1,11 @@
 extends PanelContainer
-## Single playable card. Cost, title, icon, description, background glow.
+## Single playable card (this scene only — hand/battle instantiate `card_ui.tscn`).
+## Tutorial / how-to-play UI is a separate scene: `res://scenes/settings_scene.tscn` (opened from main menu).
+## Do not add tutorial or full-screen menu nodes under CardUI; keep this scene small for the hand layout.
+## Cost, title, icon, description, background glow.
 ## States: base, hover (scale 1.08, raise, glow), drag (scale, glow).
-## Emits play_requested(card_data) when played via hotkey or drag-release.
-
-signal play_requested(card_data: Dictionary)
+## NOTE: “Play card” is handled by `CardDragSystem` -> `BattleUIManager`
+## (CardUI only displays/animates the card).
 
 @export var card_data: Dictionary = {}
 @export var hotkey_index: int = -1
@@ -13,6 +15,9 @@ signal play_requested(card_data: Dictionary)
 @onready var desc_label: Label = $VBox/Desc
 @onready var cost_label: Label = $VBox/CostBox/Cost
 @onready var icon_label: Label = $VBox/IconArea/IconLabel
+@onready var target_badge: Label = $VBox/TargetBadge
+
+signal hover_changed(card_data: Dictionary, hovering: bool)
 
 const HOVER_SCALE: float = 1.08
 const HOVER_RAISE: float = -24.0
@@ -36,7 +41,12 @@ func _ready() -> void:
 	connect("mouse_entered", _on_mouse_entered)
 
 func _get_audio_manager() -> Node:
-	var root := get_tree().get_root()
+	var tree := get_tree()
+	if tree == null:
+		return null
+	var root: Window = tree.get_root()
+	if root == null:
+		return null
 	return root.get_node_or_null("BattleScene/AudioManager")
 
 func setup(data: Dictionary, index: int) -> void:
@@ -89,13 +99,7 @@ func _update_display() -> void:
 		desc_label.text = desc_val
 	if cost_label:
 		var cost_val: int = card_data.get("cost", 0) as int
-		var req: String = card_data.get("requirement", "") as String
-		if req == "—" or req == "":
-			cost_label.text = "—" if cost_val == 0 else str(cost_val)
-		elif req == "1 energy":
-			cost_label.text = str(cost_val)
-		else:
-			cost_label.text = req
+		cost_label.text = "Free" if cost_val == 0 else str(cost_val)
 
 func _update_icon() -> void:
 	if not icon_label:
@@ -110,6 +114,10 @@ func _update_icon() -> void:
 			icon_label.text = "✦"
 		_:
 			icon_label.text = "•"
+	if target_badge:
+		var needs_target: bool = card_data.get("requires_target", false) as bool
+		var ctype_str: String = card_data.get("type", "") as String
+		target_badge.visible = needs_target and ctype_str != "ATTACK"
 
 func _gui_input(event: InputEvent) -> void:
 	if card_data.is_empty():
@@ -126,11 +134,15 @@ func _notification(what: int) -> void:
 		_apply_style()
 		_target_scale = HOVER_SCALE
 		_target_offset_y = HOVER_RAISE
+		if not card_data.is_empty():
+			hover_changed.emit(card_data, true)
 	if what == NOTIFICATION_MOUSE_EXIT:
 		_is_hovered = false
 		_apply_style()
 		_target_scale = 1.0
 		_target_offset_y = 0.0
+		if not card_data.is_empty():
+			hover_changed.emit(card_data, false)
 
 func _process(delta: float) -> void:
 	if _is_dragging:

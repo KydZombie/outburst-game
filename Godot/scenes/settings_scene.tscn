@@ -3,17 +3,68 @@
 [ext_resource type="Script" uid="uid://dfbpxolvhle8b" path="res://scripts/ui/settings_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
-bg_color = Color(0.12, 0.14, 0.22, 0.9)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.08, 0.1, 0.18, 0.85)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.25, 0.35, 0.55, 0.8)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+border_color = Color(1, 1, 1, 0.35)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.16, 0.2, 0.34, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color(1, 1, 1, 0.25)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.12, 0.15, 0.26, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color(1, 1, 1, 0.18)
+shadow_size = 6
 
 [node name="SettingsScene" type="Control" unique_id=619174905]
 layout_mode = 3
@@ -42,46 +93,215 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 80
-theme_override_constants/margin_top = 60
-theme_override_constants/margin_right = 80
-theme_override_constants/margin_bottom = 60
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 32
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=1886423624]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBox" unique_id=508678184]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
-theme_override_font_sizes/font_size = 42
-text = "How to Play"
+theme_override_font_sizes/font_size = 48
+text = "Tutorial"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SettingsText" type="Label" parent="MarginContainer/VBox" unique_id=1155499635]
+[node name="HubView" type="VBoxContainer" parent="MarginContainer/VBox" unique_id=710000001]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.88, 0.86, 0.82, 1)
-theme_override_font_sizes/font_size = 20
-text = "OUTBURST is a turn-based card battle. Your party of five faces Jeff The Crab take him down before he takes you.
+theme_override_constants/separation = 14
+alignment = 1
 
-• Play cards by dragging them to the play zone (the drop area) or press 1, 2, or 3 for the first three cards in your hand.
-• Each card costs energy (shown at the bottom). Use it wisely attack cards deal damage to Jeff.
-• Win by reducing Jeff The Crab's HP to zero. Lose if all your party members' HP reach zero first. If both happen on the same turn, you win!
-• At the end of each turn, Jeff attacks one of your party members. Plan ahead and manage your health.
-• Press D to draw a card, S to skip (end turn). Save your party and defeat the crab!"
+[node name="HubSpacerTop" type="Control" parent="MarginContainer/VBox/HubView" unique_id=710000030]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="IntroLabel" type="Label" parent="MarginContainer/VBox/HubView" unique_id=710000002]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.88, 0.9, 0.96, 0.95)
+theme_override_font_sizes/font_size = 28
+text = "USE THE BASICS BELOW . USE /, NEXT, JUMP FOR ANY TOPIC "
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TopicGrid" type="VBoxContainer" parent="MarginContainer/VBox/HubView" unique_id=710000003]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+
+[node name="BtnOverview" type="Button" parent="MarginContainer/VBox/HubView/TopicGrid" unique_id=710000010]
+custom_minimum_size = Vector2(320, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Overview"
+
+[node name="BtnEnergyCards" type="Button" parent="MarginContainer/VBox/HubView/TopicGrid" unique_id=710000011]
+custom_minimum_size = Vector2(320, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Energy & Cards"
+
+[node name="BtnDrawTurn" type="Button" parent="MarginContainer/VBox/HubView/TopicGrid" unique_id=710000012]
+custom_minimum_size = Vector2(320, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Draw & Turn Flow"
+
+[node name="BtnEmotions" type="Button" parent="MarginContainer/VBox/HubView/TopicGrid" unique_id=710000013]
+custom_minimum_size = Vector2(320, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Emotions"
+
+[node name="BtnJeff" type="Button" parent="MarginContainer/VBox/HubView/TopicGrid" unique_id=710000014]
+custom_minimum_size = Vector2(320, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Jeff (Enemy)"
+
+[node name="BtnTargeting" type="Button" parent="MarginContainer/VBox/HubView/TopicGrid" unique_id=710000015]
+custom_minimum_size = Vector2(320, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Targeting & Hints"
+
+[node name="BtnControls" type="Button" parent="MarginContainer/VBox/HubView/TopicGrid" unique_id=710000016]
+custom_minimum_size = Vector2(320, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Controls"
+
+[node name="BackToMenuHub" type="Button" parent="MarginContainer/VBox/HubView" unique_id=710000020]
+custom_minimum_size = Vector2(320, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Return to menu"
+
+[node name="HubSpacerBottom" type="Control" parent="MarginContainer/VBox/HubView" unique_id=710000031]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DetailView" type="VBoxContainer" parent="MarginContainer/VBox" unique_id=720000001]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="SectionTitle" type="Label" parent="MarginContainer/VBox/DetailView" unique_id=720000002]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 0.85, 1)
+theme_override_font_sizes/font_size = 32
+text = "Section"
+horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBox" unique_id=152528460]
-custom_minimum_size = Vector2(220, 56)
+[node name="DetailScroll" type="ScrollContainer" parent="MarginContainer/VBox/DetailView" unique_id=720000003]
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
-text = "Back to Menu"
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DetailLabel" type="Label" parent="MarginContainer/VBox/DetailView/DetailScroll" unique_id=720000004]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9, 0.88, 0.84, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="PageIndicator" type="Label" parent="MarginContainer/VBox/DetailView" unique_id=720000008]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.78, 0.85)
+theme_override_font_sizes/font_size = 16
+text = "1 / 7"
+horizontal_alignment = 1
+
+[node name="DetailNav" type="HBoxContainer" parent="MarginContainer/VBox/DetailView" unique_id=720000005]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="BtnPrev" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000006]
+custom_minimum_size = Vector2(100, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "← Back"
+
+[node name="BtnNext" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000009]
+custom_minimum_size = Vector2(100, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Next →"
+
+[node name="BtnTopics" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000010]
+custom_minimum_size = Vector2(100, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Topics"
+
+[node name="BtnMenu" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000007]
+custom_minimum_size = Vector2(148, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Return to menu"

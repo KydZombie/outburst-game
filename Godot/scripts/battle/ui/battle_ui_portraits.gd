@@ -52,12 +52,12 @@ static func apply_enemy_portrait(enemy_portrait: TextureRect, enemies: Array[Dic
 		return
 	var fallback := Color(0.25, 0.2, 0.2, 1)
 	if enemies.is_empty():
-		var tex: ImageTexture = make_placeholder_texture(fallback, 120, 120)
-		if tex:
-			enemy_portrait.texture = tex
+		var placeholder_tex: ImageTexture = make_placeholder_texture(fallback, 120, 120)
+		if placeholder_tex:
+			enemy_portrait.texture = placeholder_tex
 		return
 	var name_str: String = enemies[0].get("name", "") as String
 	var path: String = get_portrait_path(name_str)
-	var tex: Texture2D = load_portrait(path, fallback, 120, 120)
-	if tex:
-		enemy_portrait.texture = tex
+	var portrait_tex: Texture2D = load_portrait(path, fallback, 120, 120)
+	if portrait_tex:
+		enemy_portrait.texture = portrait_tex

@@ -16,3 +16,9 @@ func hover_card() -> void:
 	if p:
 		p.play()
 
+
+func play_enemy_attack_hit() -> void:
+	var p: AudioStreamPlayer = get_node_or_null("SFX_EnemyAttack") as AudioStreamPlayer
+	if p:
+		p.play()
+

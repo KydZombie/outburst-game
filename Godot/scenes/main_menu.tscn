@@ -1,54 +1,95 @@
 [gd_scene format=3 uid="uid://ddcqrxoc47b7m"]
 
-[ext_resource type="Script" uid="uid://diwp54t44ud12" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
 [ext_resource type="AudioStream" uid="uid://dpdenqqbovwfq" path="res://art/8_bit_iced_village_lofi.mp3" id="3_music"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
-bg_color = Color(0.12, 0.14, 0.22, 0.9)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.08, 0.1, 0.18, 0.85)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.25, 0.35, 0.55, 0.8)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+border_color = Color(1, 1, 1, 0.35)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.12, 0.15, 0.26, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(1, 1, 1, 0.18)
+shadow_size = 6
+shadow_offset = Vector2(0, 0)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+bg_color = Color(0.16, 0.2, 0.34, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(1, 1, 1, 0.25)
+shadow_size = 8
+shadow_offset = Vector2(0, 0)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
 
 [sub_resource type="Animation" id="Animation_title_pulse"]
 resource_name = "title_pulse"
-length = 2.0
+length = 3.0
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Title:scale")
+tracks/0/path = NodePath("VBox/Title:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
+"times": PackedFloat32Array(0, 1.5, 3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
+"values": [Color(1, 1, 1, 1), Color(1, 0.95, 0.88, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_main"]
 _data = {
 &"title_pulse": SubResource("Animation_title_pulse")
 }
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_embers"]
-emission_shape = 1
-emission_sphere_radius = 400.0
-direction = Vector3(0, -1, 0)
-spread = 30.0
-initial_velocity_min = 8.0
-initial_velocity_max = 25.0
-gravity = Vector3(0, -5, 0)
-scale_min = 0.15
-scale_max = 0.4
-color = Color(1, 0.6, 0.2, 0.7)
 
 [node name="MainMenu" type="Control" unique_id=1539778756]
 layout_mode = 3
@@ -70,88 +111,80 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Title" type="Label" parent="." unique_id=1160245962]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -256.00003
-offset_top = 40.000008
-offset_right = 217.0
-offset_bottom = 164.0
-grow_horizontal = 2
-scale = Vector2(1.2762723, 1.2445481)
-theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
-theme_override_font_sizes/font_size = 90
-text = "OUTBURST"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuContainer" type="VBoxContainer" parent="." unique_id=62145252]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -154.0
-offset_top = -98.0
-offset_right = 146.0
-offset_bottom = 282.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 0
 alignment = 1
 
-[node name="PlayButton" type="Button" parent="MenuContainer" unique_id=893867331]
-custom_minimum_size = Vector2(300, 60)
+[node name="Title" type="Label" parent="VBox" unique_id=1160245962]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_font_sizes/font_size = 86
+text = "OUTBURST"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="MenuContainer" type="VBoxContainer" parent="VBox" unique_id=62145252]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 14
+
+[node name="PlayButton" type="Button" parent="VBox/MenuContainer" unique_id=893867331]
+custom_minimum_size = Vector2(340, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
 text = "Play"
 
-[node name="ContinueButton" type="Button" parent="MenuContainer" unique_id=408962262]
-custom_minimum_size = Vector2(300, 60)
+[node name="TutorialButton" type="Button" parent="VBox/MenuContainer" unique_id=2011300388]
+custom_minimum_size = Vector2(340, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
-text = "Continue"
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "Tutorial"
 
-[node name="SettingsButton" type="Button" parent="MenuContainer" unique_id=2011300388]
-custom_minimum_size = Vector2(300, 60)
+[node name="SettingsButton" type="Button" parent="VBox/MenuContainer" unique_id=2011300389]
+custom_minimum_size = Vector2(340, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
 text = "Settings"
 
-[node name="CreditsButton" type="Button" parent="MenuContainer" unique_id=955025995]
-custom_minimum_size = Vector2(300, 60)
+[node name="CreditsButton" type="Button" parent="VBox/MenuContainer" unique_id=955025995]
+custom_minimum_size = Vector2(340, 56)
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
 text = "Credits"
-
-[node name="QuitButton" type="Button" parent="MenuContainer" unique_id=1881666678]
-custom_minimum_size = Vector2(300, 60)
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
-text = "Quit"
 
 [node name="VersionLabel" type="Label" parent="." unique_id=544546120]
 layout_mode = 1
@@ -159,24 +192,17 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = -40.0
-offset_right = 120.0
-offset_bottom = -10.0
+offset_top = -36.0
+offset_right = 140.0
+offset_bottom = -12.0
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.65, 0.9)
-theme_override_font_sizes/font_size = 14
-text = "Version 0.1"
+theme_override_colors/font_color = Color(0.55, 0.55, 0.6, 0.7)
+theme_override_font_sizes/font_size = 13
+text = "v0.1.0"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1035181941]
 libraries/ = SubResource("AnimationLibrary_main")
 autoplay = &"title_pulse"
-
-[node name="Particles" type="GPUParticles2D" parent="." unique_id=2065801591]
-z_index = -1
-amount = 80
-lifetime = 4.0
-visibility_rect = Rect2(-100, -100, 1480, 920)
-process_material = SubResource("ParticleProcessMaterial_embers")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=910913967]
 stream = ExtResource("3_music")

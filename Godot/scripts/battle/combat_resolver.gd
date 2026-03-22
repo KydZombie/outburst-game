@@ -24,7 +24,10 @@ func enemy_attack_party(party: Array[Dictionary], target_idx: int, damage: int) 
 	if damage < 0:
 		damage = 0
 	party[target_idx]["hp"] = maxi(0, cur_hp - damage)
-	if party[target_idx].get("hp", 0) as int > 0:
+	var hp_after: int = party[target_idx].get("hp", 0) as int
+	if hp_after <= 0:
+		party[target_idx]["emotions"] = {"Angry": 0, "Sad": 0, "Happy": 0}
+	elif hp_after > 0:
 		var emotions: Dictionary = party[target_idx].get("emotions", {}) as Dictionary
 		emotions["Sad"] = (emotions.get("Sad", 0) as int) + 1
 		party[target_idx]["emotions"] = emotions

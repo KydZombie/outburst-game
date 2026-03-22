@@ -9,6 +9,7 @@ const OUTLINE_PLAY_ZONE := 6
 const FONT_SIZE_CONTROLS := 18
 const OUTLINE_CONTROLS := 4
 const FONT_SIZE_BANNER := 42
+const FONT_SIZE_DEATH_BANNER := 56
 const OUTLINE_BANNER := 6
 
 
@@ -47,3 +48,23 @@ static func apply_turn_banner(l: Label) -> void:
 	l.add_theme_color_override("font_color", FONT_COLOR)
 	l.add_theme_color_override("font_outline_color", OUTLINE_COLOR)
 	l.add_theme_constant_override("outline_size", OUTLINE_BANNER)
+
+
+static func apply_death_banner(l: Label) -> void:
+	if l == null:
+		return
+	l.add_theme_font_size_override("font_size", FONT_SIZE_DEATH_BANNER)
+	l.add_theme_color_override("font_color", Color(1, 0.35, 0.3, 1))
+	l.add_theme_color_override("font_outline_color", OUTLINE_COLOR)
+	l.add_theme_constant_override("outline_size", OUTLINE_BANNER)
+
+
+## Red play-zone style for brief "X IS DEAD" — same font/size as play zone, bold, red only.
+static func apply_death_play_zone_richtext(rt: RichTextLabel) -> void:
+	if rt == null:
+		return
+	rt.add_theme_font_size_override("normal_font_size", FONT_SIZE_PLAY_ZONE)
+	rt.add_theme_font_size_override("bold_font_size", FONT_SIZE_PLAY_ZONE)
+	rt.add_theme_color_override("default_color", Color(1, 0.35, 0.3, 1))
+	rt.add_theme_color_override("font_outline_color", OUTLINE_COLOR)
+	rt.add_theme_constant_override("outline_size", OUTLINE_PLAY_ZONE)

@@ -18,7 +18,8 @@ func resolve_card_effect(
 		return result
 	if card_id.begins_with("basic_punch"):
 		var dmg := 4 + _emotion_damage_modifier(party, target_character_index)
-		combat_resolver.deal_damage_to_enemy(enemies, maxi(0, dmg))
+		var mult: float = GameSettings.get_player_damage_multiplier()
+		combat_resolver.deal_damage_to_enemy(enemies, maxi(0, int(round(dmg * mult))))
 		return result
 	if card_id.begins_with("get_angry"):
 		_add_emotion(party, target_character_index, "Angry", 2)
@@ -26,7 +27,8 @@ func resolve_card_effect(
 	if card_id.begins_with("angry_punch"):
 		var dmg := 10 + _emotion_damage_modifier(party, target_character_index)
 		_remove_emotion(party, target_character_index, "Angry", 1)
-		combat_resolver.deal_damage_to_enemy(enemies, maxi(0, dmg))
+		var mult: float = GameSettings.get_player_damage_multiplier()
+		combat_resolver.deal_damage_to_enemy(enemies, maxi(0, int(round(dmg * mult))))
 		return result
 	if card_id.begins_with("cheer_up"):
 		# Core: SetEmotion(Angry,0), SetEmotion(Sad,0), AddEmotion(Happy,2) on target — no heal.

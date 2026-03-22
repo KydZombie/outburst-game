@@ -53,8 +53,10 @@ func _ready() -> void:
 	_targeting = _TargetingScript.new()
 	_runtime = _RuntimeScript.new()
 	_runtime.setup(self, _refs, _hand_manager, _battle_manager, _deck_manager, GAME_OVER_SCENE_PATH)
-	_targeting.setup(self, _refs, _battle_manager.input_controller, func() -> void:
-		_runtime.refresh_angry_combo_play_zone_hint()
+	_targeting.setup(
+		self, _refs, _battle_manager.input_controller,
+		func() -> void: _runtime.refresh_angry_combo_play_zone_hint(),
+		func(party_index: int) -> void: _runtime.on_dead_member_selection_attempted(party_index)
 	)
 	_battle_manager.target_skill_hotkey_needs_party.connect(func(card: Dictionary) -> void:
 		_last_state = _battle_manager.get_current_state()
@@ -88,6 +90,7 @@ func _ready() -> void:
 	)
 	_battle_manager.battle_ended.connect(_runtime.on_battle_ended)
 	_battle_manager.enemy_attacked.connect(func(idx: int, dmg: int) -> void: _runtime.on_enemy_attack(idx, dmg))
+	_battle_manager.party_member_died.connect(func(idx: int) -> void: _runtime.on_party_member_died(idx))
 	_battle_manager.enemy_hit.connect(func(dmg: int) -> void: _runtime.on_enemy_hit(dmg))
 	_battle_manager.target_character_changed.connect(func(_i: int) -> void:
 		_last_state = _runtime.refresh_initial_state()

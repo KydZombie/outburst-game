@@ -90,13 +90,18 @@ func on_energy_changed(energy: int) -> void:
 	if _battle_manager:
 		_refresh_play_zone_hints(_battle_manager.get_current_state())
 
-func on_enemy_intent_changed(intent_value: int, intent_type: String = "attack") -> void:
+func on_enemy_intent_changed(intent_value: int, intent_type: String = "attack", intent_target_count: int = -1) -> void:
 	if not _refs.enemy_intent:
 		return
 	if intent_type == "heal":
 		_refs.enemy_intent.text = "Heal %d" % intent_value
 	else:
-		_refs.enemy_intent.text = "⚔ %d" % intent_value
+		var suffix: String = ""
+		if intent_target_count == 1:
+			suffix = " (1)"
+		elif intent_target_count >= 2:
+			suffix = " (All)" if intent_target_count >= 5 else " (%d)" % intent_target_count
+		_refs.enemy_intent.text = "⚔ %d%s" % [intent_value, suffix]
 
 func on_hand_changed(hand: Array[Dictionary]) -> void:
 	if _hand_manager:
@@ -189,12 +194,37 @@ func _show_play_zone_hint_message(msg: String) -> void:
 	if _refs.target_prompt and _refs.target_prompt.visible:
 		_hide_angry_combo_play_zone_hint()
 		return
+	BattleHintTheme.apply_play_zone_richtext(_refs.angry_combo_hint)
 	var was_visible: bool = _refs.angry_combo_hint.visible
 	var text_changed: bool = _refs.angry_combo_hint.text != msg
 	_refs.angry_combo_hint.text = msg
 	_refs.angry_combo_hint.visible = true
 	if text_changed or not was_visible:
 		_start_angry_combo_hint_glow()
+
+
+## Shows "NIKO IS DEAD" in play zone briefly (bold, red, same font size). Auto-hides after duration.
+func show_dead_play_zone_briefly(msg: String, duration: float = 2.5) -> void:
+	if not _refs.angry_combo_hint or not _owner:
+		return
+	_hide_angry_combo_play_zone_hint()
+	BattleHintTheme.apply_death_play_zone_richtext(_refs.angry_combo_hint)
+	_refs.angry_combo_hint.bbcode_enabled = true
+	_refs.angry_combo_hint.text = "[b]%s[/b]" % msg
+	_refs.angry_combo_hint.visible = true
+	_refs.angry_combo_hint.modulate = Color.WHITE
+	if _angry_combo_hint_tween and _angry_combo_hint_tween.is_valid():
+		_angry_combo_hint_tween.kill()
+	_angry_combo_hint_tween = null
+	var tree: SceneTree = _owner.get_tree()
+	if tree:
+		tree.create_timer(duration).timeout.connect(func() -> void:
+			if _refs.angry_combo_hint and is_instance_valid(_refs.angry_combo_hint):
+				_refs.angry_combo_hint.visible = false
+			_angry_combo_hint_tween = null
+			if _battle_manager:
+				_refresh_play_zone_hints(_battle_manager.get_current_state())
+		, CONNECT_ONE_SHOT)
 
 
 func _start_angry_combo_hint_glow() -> void:
@@ -231,7 +261,7 @@ func refresh_initial_state() -> Dictionary:
 	var enemies: Array = state.get("enemies", [])
 	if enemies.size() > 0:
 		var e0: Dictionary = enemies[0]
-		on_enemy_intent_changed(e0.get("intent_value", 30) as int, e0.get("intent_type", "attack") as String)
+		on_enemy_intent_changed(e0.get("intent_value", 30) as int, e0.get("intent_type", "attack") as String, e0.get("intent_target_count", -1) as int)
 	on_deck_discard_changed(state.get("deck_size", 0), state.get("discard_size", 0))
 	var hand: Array = state.get("hand", [])
 	if _hand_manager and hand.size() > 0:
@@ -251,10 +281,21 @@ func on_card_played_from_logic(card_data: Dictionary) -> void:
 
 func on_battle_ended(result: String) -> void:
 	BattleResult.set_result(result == "win")
-	# Defer so we never change scenes mid–input frame / with a stale tree (avoids rare null/crash).
 	if _owner == null or not is_instance_valid(_owner):
 		return
-	_owner.call_deferred("transition_to_game_over", _game_over_scene_path)
+	# On loss, delay so the death banner (e.g. "NIKO IS DEAD") can display before game over.
+	var delay: float = 0.0
+	if result == "loss":
+		delay = 3.5
+	if delay > 0:
+		var tree: SceneTree = _owner.get_tree()
+		if tree:
+			tree.create_timer(delay).timeout.connect(func() -> void:
+				if _owner and is_instance_valid(_owner):
+					_owner.transition_to_game_over(_game_over_scene_path)
+			, CONNECT_ONE_SHOT)
+	else:
+		_owner.call_deferred("transition_to_game_over", _game_over_scene_path)
 
 func _pulse_end_turn_after_max_plays() -> void:
 	if not _refs.end_turn_btn:
@@ -449,6 +490,9 @@ func _finish_shake_for(ctrl: Control) -> void:
 	ctrl.position -= prev
 	_shake_offsets.erase(tid)
 	_shake_tweens.erase(tid)
+	var parent: Node = ctrl.get_parent()
+	if parent and parent is Container:
+		(parent as Container).queue_sort()
 
 func _spawn_energy_gain_number(gain: int) -> void:
 	if not _refs.energy_display:
@@ -614,6 +658,46 @@ func on_turn_auto_skipped(reason: String) -> void:
 
 func on_deck_reshuffled() -> void:
 	show_turn_banner("DECK RESHUFFLED!", 0.6)
+
+func on_dead_member_selection_attempted(party_index: int) -> void:
+	var state: Dictionary = _battle_manager.get_current_state() if _battle_manager else {}
+	var party: Array = state.get("party", [])
+	var name_str: String = "A party member"
+	if party_index >= 0 and party_index < party.size():
+		var p: Dictionary = party[party_index]
+		name_str = p.get("name", "A party member") as String
+	show_dead_play_zone_briefly("%s IS DEAD" % name_str.to_upper(), 2.5)
+
+func on_party_member_died(member_idx: int) -> void:
+	var state: Dictionary = _battle_manager.get_current_state() if _battle_manager else {}
+	var party: Array = state.get("party", [])
+	var name_str: String = "A party member"
+	if member_idx >= 0 and member_idx < party.size():
+		var p: Dictionary = party[member_idx]
+		name_str = p.get("name", "A party member") as String
+	show_death_banner("%s IS DEAD" % name_str.to_upper(), 2.8)
+	show_dead_play_zone_briefly("%s IS DEAD" % name_str.to_upper(), 2.5)
+
+func show_death_banner(text: String, duration: float = 2.8) -> void:
+	_ensure_turn_banner()
+	if not _turn_banner_label:
+		return
+	_stop_turn_banner()
+	BattleHintTheme.apply_death_banner(_turn_banner_label)
+	_turn_banner_label.text = text
+	_turn_banner_layer.visible = true
+	_turn_banner_label.modulate = Color(1, 1, 1, 0)
+	_turn_banner_tween = _owner.create_tween()
+	var t: Tween = _turn_banner_tween
+	t.tween_property(_turn_banner_label, "modulate:a", 1.0, 0.2)
+	t.tween_interval(duration)
+	t.tween_property(_turn_banner_label, "modulate:a", 0.0, 0.4)
+	t.tween_callback(func() -> void:
+		_turn_banner_tween = null
+		if _turn_banner_layer:
+			_turn_banner_layer.visible = false
+		BattleHintTheme.apply_turn_banner(_turn_banner_label)
+	)
 
 func on_enemy_healed(amount: int) -> void:
 	if amount <= 0 or not _refs.right_panel:

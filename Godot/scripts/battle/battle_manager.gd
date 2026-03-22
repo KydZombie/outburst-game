@@ -3,7 +3,7 @@ class_name BattleManager
 
 signal state_changed(state: Dictionary)
 signal energy_changed(energy: int)
-signal enemy_intent_changed(intent_value: int, intent_type: String)
+signal enemy_intent_changed(intent_value: int, intent_type: String, intent_target_count: int)
 signal card_played(card_data: Dictionary)
 signal card_effect_for_ui(card_data: Dictionary)
 ## Emitted when the battle ends. result is "win" or "loss".
@@ -12,6 +12,7 @@ signal battle_ended(result: String)
 signal enemy_heal_action(amount: int)
 signal target_character_changed(index: int)
 signal enemy_attacked(target_idx: int, damage: int)
+signal party_member_died(target_idx: int)
 signal enemy_hit(damage: int)
 ## Hotkey (1–3) tried to play a skill that needs a party target — UI must start targeting.
 signal target_skill_hotkey_needs_party(card_data: Dictionary)
@@ -108,6 +109,7 @@ func _connect_signals() -> void:
 	# Do not call _emit_full_state() here — request_play_card, _on_draw_requested, and _end_turn already emit once.
 	turn_manager.enemy_heal_action.connect(_on_enemy_heal_action)
 	turn_manager.enemy_attacked.connect(func(idx: int, dmg: int) -> void: enemy_attacked.emit(idx, dmg))
+	turn_manager.party_member_died.connect(func(idx: int) -> void: party_member_died.emit(idx))
 	input_controller.play_card_by_index.connect(_on_play_card_by_index)
 	input_controller.draw_card_requested.connect(_on_draw_requested)
 	input_controller.end_turn_requested.connect(_on_end_turn_requested)
@@ -311,7 +313,7 @@ func _complete_end_turn_after_enemy_banner() -> void:
 		_enemy_turn_resolving = false
 		return
 	_cards_played_this_turn = 0
-	var summary := turn_manager.end_turn(_party, _enemies, _turn, _energy)
+	var summary: Dictionary = turn_manager.end_turn(_party, _enemies, _turn, _energy)
 	_turn = summary["turn"]
 	_energy = summary["energy"]
 	_update_enemy_intent()
@@ -398,12 +400,17 @@ func _update_enemy_intent() -> void:
 	var power: int = e.get("power", 10) as int
 	if hp <= 20 and max_hp > 0:
 		e["intent_type"] = "heal"
-		# Enemy heals for (max_hp / 3) with integer truncation.
-		e["intent_value"] = floori(float(max_hp) / 3.0)
+		e["intent_value"] = GameSettings.get_enemy_heal_amount(max_hp)
+		e["intent_target_count"] = -1
 	else:
 		e["intent_type"] = "attack"
-		e["intent_value"] = power * 3
-	enemy_intent_changed.emit(e["intent_value"], e.get("intent_type", "attack") as String)
+		e["intent_value"] = GameSettings.get_enemy_attack_damage(power)
+		var target_count: int = -1
+		if GameSettings.is_enemy_spread_attack():
+			var targets: Array = enemy_ai.decide_hard_attack_targets(_party, e["intent_value"] as int)
+			target_count = targets.size()
+		e["intent_target_count"] = target_count
+	enemy_intent_changed.emit(e["intent_value"], e.get("intent_type", "attack") as String, e.get("intent_target_count", -1) as int)
 
 func get_current_state() -> Dictionary:
 	return {

@@ -28,6 +28,13 @@ const _TOPICS: Dictionary = {
 		"title": "Overview",
 		"body": """OUTBURST is a turn-based card battle. Your party of five faces Jeff — reduce his HP to zero before your team is wiped out.
 
+DIFFICULTY (choose from Settings before battle):
+• Easy — your punches deal 2× damage. Jeff attacks normally.
+• Medium — baseline damage for both sides.
+• Hard — Jeff hits for 45, heals 25, and spreads attacks across 1–5 allies with smart targeting. Your punches deal 1.1× damage. His intent shows how many he'll hit.
+
+If a party member's HP reaches 0, they die (all emotions reset to 0) and can no longer be targeted.
+
 Navigate with Back / Next, or jump to any topic from the list."""
 	},
 	"energy": {
@@ -53,8 +60,10 @@ Navigate with Back / Next, or jump to any topic from the list."""
 	},
 	"jeff": {
 		"title": "Jeff (Enemy)",
-		"body": """• Intent shows his next move: attack damage is Power × 3 (10 Power → 30 damage while he's above 20 HP).
-• At 20 HP or below, Jeff tries to heal instead (about a third of his max HP, rounded down).
+		"body": """• Intent shows his next move: attack damage is Power × 3 (30 on Medium; 45 on Hard).
+• On Hard, intent also shows how many allies he'll target — e.g. "⚔ 45 (3)" or "⚔ 45 (All)".
+• At 20 HP or below, Jeff tries to heal (⅓ max HP on Medium, 25 on Hard).
+• On Hard, Jeff prioritizes killable allies, then low-HP or high-threat (Angry/Happy) targets.
 • Click the DECK or DISCARD panels to see what remains in those piles."""
 	},
 	"targeting": {

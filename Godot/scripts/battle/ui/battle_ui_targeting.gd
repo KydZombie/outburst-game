@@ -15,12 +15,15 @@ var _left_panel_default_style: StyleBox
 var _left_panel_glow_style: StyleBoxFlat
 ## Called when TargetPrompt is shown/hidden so play-zone hints can stay in sync.
 var _on_target_prompt_changed: Callable = Callable()
+## Called when player tries to select a dead party member (party_index: int).
+var _on_dead_member_selected: Callable = Callable()
 
-func setup(owner: Control, refs: BattleUINodeRefs, input_controller: InputController, on_target_prompt_changed: Callable = Callable()) -> void:
+func setup(owner: Control, refs: BattleUINodeRefs, input_controller: InputController, on_target_prompt_changed: Callable = Callable(), on_dead_member_selected: Callable = Callable()) -> void:
 	_owner = owner
 	_refs = refs
 	_input_controller = input_controller
 	_on_target_prompt_changed = on_target_prompt_changed
+	_on_dead_member_selected = on_dead_member_selected
 
 
 func is_awaiting_party_target_for_skill() -> bool:
@@ -47,6 +50,8 @@ func confirm_party_target_at_index(party_index: int, battle_manager: BattleManag
 		return false
 	var p: Dictionary = party[party_index]
 	if (p.get("hp", 0) as int) <= 0:
+		if _on_dead_member_selected.is_valid():
+			_on_dead_member_selected.call(party_index)
 		return false
 	battle_manager.set_target_character_index(party_index)
 	return battle_manager.request_play_card(_pending_target_skill_card_data)

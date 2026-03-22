@@ -56,10 +56,50 @@ func decide_action(party: Array[Dictionary], enemies: Array[Dictionary]) -> Dict
 	var power: int = e.get("power", 10) as int
 	if hp <= 20 and max_hp > 0:
 		result["action"] = "heal"
-		# Enemy heals for (max_hp / 3) with integer truncation.
-		result["heal_amount"] = floori(float(max_hp) / 3.0)
+		result["heal_amount"] = GameSettings.get_enemy_heal_amount(max_hp)
 		return result
 	result["action"] = "attack"
 	result["target_idx"] = choose_target_index(party)
 	result["damage"] = power * 3
 	return result
+
+
+## Hard mode: decides which party members to hit (1 to all). Returns array of indices.
+## "Best for him": killable first, then low-HP or high-threat, else spread for Sad pressure.
+func decide_hard_attack_targets(party: Array[Dictionary], total_damage: int) -> Array[int]:
+	var alive: Array[int] = get_alive_party_indices(party)
+	if alive.is_empty():
+		return []
+	# 1. If someone is one-shot killable, focus on them.
+	var killable: Array[int] = []
+	for idx in alive:
+		var hp: int = party[idx].get("hp", 100) as int
+		if hp > 0 and hp <= total_damage:
+			killable.append(idx)
+	if killable.size() > 0:
+		return [killable[randi() % killable.size()]]
+	# 2. Varied patterns: ~33% focus 1, ~33% spread 3, ~33% spread all.
+	var n: int = alive.size()
+	var num_targets: int
+	var r := randf()
+	if r < 0.33:
+		num_targets = 1
+	elif r < 0.66:
+		num_targets = mini(3, n)
+	else:
+		num_targets = n
+	# 3. Pick targets "best for him": prioritize lowest HP (pressure kills) and high threat (Angry/Happy = damage to Jeff).
+	alive.sort_custom(func(a: int, b: int) -> bool:
+		var pa: Dictionary = party[a]
+		var pb: Dictionary = party[b]
+		var hp_a: int = pa.get("hp", 100) as int
+		var hp_b: int = pb.get("hp", 100) as int
+		var em_a: Dictionary = pa.get("emotions", {}) as Dictionary
+		var em_b: Dictionary = pb.get("emotions", {}) as Dictionary
+		var threat_a: int = (em_a.get("Angry", 0) as int) + (em_a.get("Happy", 0) as int)
+		var threat_b: int = (em_b.get("Angry", 0) as int) + (em_b.get("Happy", 0) as int)
+		if hp_a != hp_b:
+			return hp_a < hp_b
+		return threat_a > threat_b
+	)
+	return alive.slice(0, num_targets)

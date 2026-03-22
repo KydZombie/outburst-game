@@ -121,15 +121,6 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="IntroLabel" type="Label" parent="MarginContainer/VBox/HubView" unique_id=710000002]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.88, 0.9, 0.96, 0.95)
-theme_override_font_sizes/font_size = 28
-text = "USE THE BASICS BELOW . USE /, NEXT, JUMP FOR ANY TOPIC "
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="TopicGrid" type="VBoxContainer" parent="MarginContainer/VBox/HubView" unique_id=710000003]
 layout_mode = 2
 size_flags_horizontal = 4

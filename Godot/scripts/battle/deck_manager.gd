@@ -25,9 +25,9 @@ func reset_with_full_deck(initial_draw: int) -> void:
 func _build_full_deck() -> Array[Dictionary]:
 	var templates: Array[Dictionary] = [
 		{"id": "gain_energy", "title": "Gain Energy", "cost": 0, "type": "POWER", "description": "Gain 8 energy.", "requires_target": false},
-		{"id": "basic_punch", "title": "Basic Punch", "cost": 1, "type": "ATTACK", "description": "Deal 2 damage to Jeff.", "requires_target": false},
+		{"id": "basic_punch", "title": "Basic Punch", "cost": 1, "type": "ATTACK", "description": "Deal 4 damage to Jeff.", "requires_target": false},
 		{"id": "get_angry", "title": "Get Angry", "cost": 0, "type": "SKILL", "description": "Add 2 Angry to ally.", "requires_target": true},
-		{"id": "angry_punch", "title": "Angry Punch", "cost": 0, "type": "ATTACK", "description": "5 damage. Uses 1 Angry.", "requires_target": true, "emotion_requirement": {"emotion": "Angry", "amount": 1}},
+		{"id": "angry_punch", "title": "Angry Punch", "cost": 0, "type": "SKILL", "description": "10 damage. Uses 1 Angry.", "requires_target": true, "emotion_requirement": {"emotion": "Angry", "amount": 1}},
 		{"id": "cheer_up", "title": "Cheer Up", "cost": 1, "type": "SKILL", "description": "Clear Angry & Sad, add 2 Happy to ally.", "requires_target": true},
 	]
 	var counts: Array[int] = [3, 4, 3, 2, 1]

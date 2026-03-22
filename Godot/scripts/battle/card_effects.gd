@@ -17,14 +17,14 @@ func resolve_card_effect(
 		result["energy"] = energy + 8
 		return result
 	if card_id.begins_with("basic_punch"):
-		var dmg := 2 + _emotion_damage_modifier(party, target_character_index)
+		var dmg := 4 + _emotion_damage_modifier(party, target_character_index)
 		combat_resolver.deal_damage_to_enemy(enemies, maxi(0, dmg))
 		return result
 	if card_id.begins_with("get_angry"):
 		_add_emotion(party, target_character_index, "Angry", 2)
 		return result
 	if card_id.begins_with("angry_punch"):
-		var dmg := 5 + _emotion_damage_modifier(party, target_character_index)
+		var dmg := 10 + _emotion_damage_modifier(party, target_character_index)
 		_remove_emotion(party, target_character_index, "Angry", 1)
 		combat_resolver.deal_damage_to_enemy(enemies, maxi(0, dmg))
 		return result

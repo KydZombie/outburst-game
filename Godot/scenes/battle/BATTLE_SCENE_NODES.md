@@ -42,7 +42,7 @@ All paths are relative to the root node `BattleScene`. The script uses `get_node
 | `.../Main/LeftPanel`             | PanelContainer    | `_left_panel`    | Party list container.          |
 | `.../Main/LeftPanel/PartyList`   | VBoxContainer     | `_party_list`    | One row per party member.      |
 
-**Each party row** (Niko, Remi, Arna, Caelum, Syd) – script expects **exactly this structure** per row:
+**Each party row** (Niko, Remi, Arna, Caelum) – script expects **exactly this structure** per row:
 
 | Node (relative to row) | Type         | Used by script                    |
 |-------------------------|-------------|-----------------------------------|

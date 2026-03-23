@@ -100,7 +100,7 @@ func on_enemy_intent_changed(intent_value: int, intent_type: String = "attack", 
 		if intent_target_count == 1:
 			suffix = " (1)"
 		elif intent_target_count >= 2:
-			suffix = " (All)" if intent_target_count >= 5 else " (%d)" % intent_target_count
+			suffix = " (All)" if intent_target_count >= 4 else " (%d)" % intent_target_count
 		_refs.enemy_intent.text = "⚔ %d%s" % [intent_value, suffix]
 
 func on_hand_changed(hand: Array[Dictionary]) -> void:

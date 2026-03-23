@@ -87,7 +87,6 @@ func _init_state() -> void:
 		{"name": "Remi", "hp": 100, "max_hp": 100, "emotions": default_emotions.duplicate()},
 		{"name": "Arna", "hp": 100, "max_hp": 100, "emotions": default_emotions.duplicate()},
 		{"name": "Caelum", "hp": 100, "max_hp": 100, "emotions": default_emotions.duplicate()},
-		{"name": "Syd", "hp": 100, "max_hp": 100, "emotions": default_emotions.duplicate()},
 	]
 	_enemies = [{
 		"name": "Jeff",

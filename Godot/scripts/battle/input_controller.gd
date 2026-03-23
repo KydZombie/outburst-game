@@ -5,7 +5,7 @@ signal play_card_by_index(index: int)
 signal draw_card_requested()
 signal end_turn_requested()
 signal quit_requested()
-## Emitted when 1–5 is pressed while choosing a party target for a skill (slot 0 = key 1).
+## Emitted when 1–4 is pressed while choosing a party target for a skill (slot 0 = key 1).
 signal party_target_pressed(slot_index: int)
 ## Return to main menu from battle (input map `battle_return_to_menu`, default M).
 signal main_menu_requested()
@@ -26,7 +26,7 @@ func _input(event: InputEvent) -> void:
 	if _party_target_mode and event is InputEventKey and event.pressed and not event.echo:
 		var ek := event as InputEventKey
 		var c := ek.physical_keycode
-		if c >= KEY_1 and c <= KEY_5:
+		if c >= KEY_1 and c <= KEY_4:
 			party_target_pressed.emit(c - KEY_1)
 			var vp := get_viewport()
 			if vp:

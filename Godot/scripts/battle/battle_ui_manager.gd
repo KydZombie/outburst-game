@@ -10,6 +10,7 @@ const GAME_OVER_SCENE_PATH := "res://scenes/game_over_scene.tscn"
 const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
 const _TargetingScript := preload("res://scripts/battle/ui/battle_ui_targeting.gd")
 const _RuntimeScript := preload("res://scripts/battle/ui/battle_ui_runtime.gd")
+const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
 
 var _refs: BattleUINodeRefs
 var _hand_manager: HandManager
@@ -26,6 +27,14 @@ func _ready() -> void:
 	BattleHintTheme.apply_play_zone_label(_refs.target_prompt)
 	BattleHintTheme.apply_play_zone_richtext(_refs.angry_combo_hint)
 	BattleHintTheme.apply_controls_hint(_refs.controls_label)
+	BattleUIPortraits.apply_nine_patch_to_party_rows(_refs.party_list)
+	_NinePatch.apply_to_button(_refs.draw_card_btn)
+	_NinePatch.apply_to_button(_refs.end_turn_btn)
+	_NinePatch.apply_to_panel(_refs.energy_box)
+	if _refs.deck_counter_panel and _refs.deck_counter_panel is PanelContainer:
+		_NinePatch.apply_to_compact_panel(_refs.deck_counter_panel as PanelContainer)
+	if _refs.discard_counter_panel and _refs.discard_counter_panel is PanelContainer:
+		_NinePatch.apply_to_compact_panel(_refs.discard_counter_panel as PanelContainer)
 	_battle_manager = BattleManager.new()
 	add_child(_battle_manager)
 	_deck_manager = _battle_manager.deck_manager

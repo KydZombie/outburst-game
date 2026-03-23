@@ -15,10 +15,14 @@ const PARTY_ROW_CONTENT_MARGIN := Vector4(10.0, 6.0, 10.0, 6.0)
 const TARGET_GLOW_CORNER_RADIUS := 20
 
 static var _default_party_row_styleboxes: Dictionary = {}
-static var _party_target_glow_stylebox: StyleBoxFlat
+static var _party_target_glow_stylebox: StyleBox
 
 static func _ensure_party_target_glow_stylebox_from(default_sb: StyleBox) -> void:
 	if _party_target_glow_stylebox:
+		return
+	if default_sb and default_sb is StyleBoxTexture:
+		var base := (default_sb as StyleBoxTexture).duplicate() as StyleBoxTexture
+		_party_target_glow_stylebox = base
 		return
 	var sb: StyleBoxFlat
 	if default_sb and default_sb is StyleBoxFlat:
@@ -34,8 +38,6 @@ static func _ensure_party_target_glow_stylebox_from(default_sb: StyleBox) -> voi
 		sb.corner_radius_bottom_right = TARGET_GLOW_CORNER_RADIUS
 		sb.corner_radius_bottom_left = TARGET_GLOW_CORNER_RADIUS
 	sb.bg_color = TARGET_GLOW_BG
-	## Only cosmetic changes after this point — expand_margin is purely visual and
-	## does NOT affect minimum size, so there is no layout shift when swapping styles.
 	sb.expand_margin_left = 2.0
 	sb.expand_margin_top = 2.0
 	sb.expand_margin_right = 2.0

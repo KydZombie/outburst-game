@@ -20,10 +20,10 @@
 bg_color = Color(0.04, 0.04, 0.06, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-content_margin_left = 16.0
-content_margin_top = 12.0
-content_margin_right = 16.0
-content_margin_bottom = 12.0
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 bg_color = Color(0.071, 0.094, 0.176, 1)
 border_width_left = 1
 border_width_top = 1
@@ -279,6 +279,7 @@ script = ExtResource("16_core_adapter")
 layer = 100
 
 [node name="Background" type="PanelContainer" parent="." unique_id=1002273621]
+clip_contents = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -296,23 +297,27 @@ expand_mode = 3
 stretch_mode = 6
 
 [node name="Margin" type="MarginContainer" parent="Background" unique_id=673039520]
+clip_contents = false
 layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 28
 
 [node name="VBox" type="VBoxContainer" parent="Background/Margin" unique_id=569968585]
+clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
 [node name="Main" type="HBoxContainer" parent="Background/Margin/VBox" unique_id=921671638]
+clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 
 [node name="LeftPanel" type="PanelContainer" parent="Background/Margin/VBox/Main" unique_id=308129436]
+clip_contents = false
 custom_minimum_size = Vector2(200, 400)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -565,6 +570,7 @@ scroll_active = false
 vertical_alignment = 1
 
 [node name="CenterArea" type="VBoxContainer" parent="Background/Margin/VBox/Main" unique_id=1133076725]
+clip_contents = false
 custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -572,13 +578,14 @@ size_flags_vertical = 3
 theme_override_constants/separation = 16
 
 [node name="DeckDiscardRow" type="HBoxContainer" parent="Background/Margin/VBox/Main/CenterArea" unique_id=274069637]
+clip_contents = false
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 16
 alignment = 1
 
 [node name="DeckCounter" type="PanelContainer" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow" unique_id=695969006]
-custom_minimum_size = Vector2(64, 96)
+custom_minimum_size = Vector2(86, 86)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_deck")
 
@@ -614,7 +621,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DiscardCounter" type="PanelContainer" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow" unique_id=963790872]
-custom_minimum_size = Vector2(64, 96)
+custom_minimum_size = Vector2(86, 86)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_deck")
 
@@ -777,6 +784,7 @@ custom_minimum_size = Vector2(420, 140)
 layout_mode = 2
 
 [node name="DrawCardRow" type="HBoxContainer" parent="Background/Margin/VBox" unique_id=666666003]
+clip_contents = false
 z_index = 5
 layout_mode = 2
 theme_override_constants/separation = 12
@@ -795,6 +803,7 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_draw_button_hover")
 text = " [ DRAW CARD ] "
 
 [node name="BottomBar" type="PanelContainer" parent="Background/Margin/VBox" unique_id=2030555910]
+clip_contents = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bottom")
 

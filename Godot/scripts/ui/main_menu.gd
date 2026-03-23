@@ -1,6 +1,8 @@
 extends Control
 ## Main menu UI: buttons, hover/press animations, scene loading, and music.
 
+const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
+
 const BATTLE_SCENE_PATH := "res://scenes/battle/battle_scene.tscn"
 const CREDITS_SCENE_PATH := "res://scenes/credits_scene.tscn"
 const TUTORIAL_SCENE_PATH := "res://scenes/settings_scene.tscn"
@@ -24,6 +26,7 @@ var _button_tweens: Dictionary = {}
 func _ready() -> void:
 	_connect_buttons()
 	for btn: Button in [play_button, tutorial_button, settings_button, credits_button]:
+		_NinePatch.apply_to_button(btn)
 		_connect_hover_and_press(btn)
 		btn.pivot_offset = btn.size / 2.0
 	if music_player:

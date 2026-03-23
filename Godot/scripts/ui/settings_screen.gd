@@ -1,6 +1,8 @@
 extends Control
 ## In-game tutorial: topic hub + paginated detail with main-menu-style hover effects.
 
+const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
+
 const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
 const HOVER_SCALE := 1.04
 const PRESS_SCALE := 0.97
@@ -126,6 +128,7 @@ func _ready() -> void:
 	_connect_topic_button("BtnTargeting", "targeting")
 	_connect_topic_button("BtnControls", "controls")
 	
+	_NinePatch.apply_to_all_buttons(self)
 	_apply_intro_tagline_style()
 	_show_hub()
 	call_deferred("_fit_detail_label_width")

@@ -22,6 +22,7 @@ var enemy_intent: Label
 var play_effect: Label
 var draw_card_btn: Button
 var energy_display: Label
+var energy_box: PanelContainer
 var end_turn_btn: Button
 var target_prompt: Label
 ## Play-zone BBCode hint when Angry Punch needs Get Angry first (separate from TargetPrompt).
@@ -61,6 +62,7 @@ func find_from(root: Node) -> void:
 	energy_display = root.get_node_or_null("%s/BottomBar/HBox/EnergyBox/EnergyLabel" % ROOT_BOTTOM)
 	if not energy_display:
 		energy_display = root.get_node_or_null("%s/BottomBar/HBox/EnergyLabel" % ROOT_BOTTOM)
+	energy_box = root.get_node_or_null("%s/BottomBar/HBox/EnergyBox" % ROOT_BOTTOM) as PanelContainer
 	end_turn_btn = root.get_node_or_null("%s/BottomBar/HBox/EndTurnButton" % ROOT_BOTTOM)
 	target_prompt = root.get_node_or_null("%s/CenterArea/PlayZone/TargetPrompt" % ROOT_MAIN) as Label
 	angry_combo_hint = root.get_node_or_null("%s/CenterArea/PlayZone/AngryComboHint" % ROOT_MAIN) as RichTextLabel

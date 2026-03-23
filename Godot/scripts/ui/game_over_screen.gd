@@ -1,6 +1,8 @@
 extends Control
 ## Game-over screen: shows YOU WIN or LOSS based on BattleResult, with Back to Menu and Retry.
 
+const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
+
 const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
 const BATTLE_SCENE_PATH := "res://scenes/battle/battle_scene.tscn"
 
@@ -11,6 +13,8 @@ const BATTLE_SCENE_PATH := "res://scenes/battle/battle_scene.tscn"
 @onready var loss_sfx: AudioStreamPlayer = $SFX_Loss
 
 func _ready() -> void:
+	_NinePatch.apply_to_button(back_button)
+	_NinePatch.apply_to_button(retry_button)
 	if BattleResult.is_win():
 		title_label.text = "CONGRATS — YOU WIN!"
 		title_label.add_theme_color_override("font_color", Color(0.3, 0.9, 0.4))

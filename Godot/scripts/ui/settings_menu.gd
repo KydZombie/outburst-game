@@ -1,6 +1,8 @@
 extends Control
 ## Audio / settings: master volume, difficulty. Persists via GameSettings autoload.
 
+const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
+
 const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
 
 @onready var back_button: Button = $MarginContainer/VBox/BackButton
@@ -9,6 +11,7 @@ const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
 
 
 func _ready() -> void:
+	_NinePatch.apply_to_button(back_button)
 	if back_button:
 		back_button.pressed.connect(_on_back_pressed)
 	if difficulty_option:

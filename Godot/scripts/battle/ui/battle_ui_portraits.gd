@@ -2,6 +2,8 @@ extends RefCounted
 class_name BattleUIPortraits
 ## Loads and applies character portraits. Shared by party list and enemy panel.
 
+const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
+
 const CHAR_PORTRAITS: Dictionary = {
 	"Niko": "res://art/tile_0121.png",
 	"Remi": "res://art/tile_0088.png",
@@ -31,6 +33,14 @@ static func load_portrait(path: String, fallback_color: Color, size_x: int = 40,
 			return res
 	var placeholder := make_placeholder_texture(fallback_color, size_x, size_y)
 	return placeholder if placeholder else null
+
+static func apply_nine_patch_to_party_rows(party_list: Control) -> void:
+	if not party_list:
+		return
+	for i in range(party_list.get_child_count()):
+		var row := party_list.get_child(i) as PanelContainer
+		if row:
+			_NinePatch.apply_to_compact_panel(row)
 
 static func apply_party_portraits(party_list: Control, party: Array[Dictionary]) -> void:
 	if not party_list:

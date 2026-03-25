@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://bgameover01"]
 
-[ext_resource type="Script" path="res://scripts/ui/game_over_screen.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
+[ext_resource type="Script" uid="uid://d3yv85adg5er0" path="res://scripts/ui/game_over_screen.gd" id="1_script"]
 [ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="3_win"]
 [ext_resource type="AudioStream" uid="uid://k8m4o3hlwm7l" path="res://art/enemy_block.ogg" id="4_loss"]
+[ext_resource type="Texture2D" uid="uid://cww0cesob4ge0" path="res://art/outburst-bg-3.png" id="4_weh2h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jy0sy"]
+bg_color = Color(0.04, 0.04, 0.06, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
 bg_color = Color(0.12, 0.14, 0.22, 0.9)
@@ -17,7 +20,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="GameOverScene" type="Control"]
+[node name="GameOverScene" type="Control" unique_id=872266559]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,26 +29,34 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="SFX_Win" type="AudioStreamPlayer" parent="."]
+[node name="SFX_Win" type="AudioStreamPlayer" parent="." unique_id=1379453624]
 stream = ExtResource("3_win")
 volume_db = -4.0
 
-[node name="SFX_Loss" type="AudioStreamPlayer" parent="."]
+[node name="SFX_Loss" type="AudioStreamPlayer" parent="." unique_id=725999252]
 stream = ExtResource("4_loss")
 volume_db = -3.0
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="PanelContainer" parent="." unique_id=2078401201]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = 5.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bg")
-expand_mode = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_jy0sy")
+
+[node name="BackgroundTexture" type="TextureRect" parent="Background" unique_id=1894725469]
+modulate = Color(0.23387015, 0.23387015, 0.23387015, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_weh2h")
+expand_mode = 3
 stretch_mode = 6
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2098418687]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,24 +64,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBox" type="VBoxContainer" parent="CenterContainer" unique_id=390203669]
 layout_mode = 2
 theme_override_constants/separation = 32
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/VBox"]
+[node name="TitleLabel" type="Label" parent="CenterContainer/VBox" unique_id=1579222316]
 layout_mode = 2
 theme_override_font_sizes/font_size = 72
 text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonRow" type="HBoxContainer" parent="CenterContainer/VBox"]
+[node name="ButtonRow" type="HBoxContainer" parent="CenterContainer/VBox" unique_id=639096093]
 layout_mode = 2
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="BackToMenuButton" type="Button" parent="CenterContainer/VBox/ButtonRow"]
+[node name="BackToMenuButton" type="Button" parent="CenterContainer/VBox/ButtonRow" unique_id=1052925433]
 custom_minimum_size = Vector2(220, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
@@ -80,7 +91,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_btn")
 theme_override_styles/focus = SubResource("StyleBoxFlat_btn")
 text = "Main menu"
 
-[node name="RetryButton" type="Button" parent="CenterContainer/VBox/ButtonRow"]
+[node name="RetryButton" type="Button" parent="CenterContainer/VBox/ButtonRow" unique_id=1740682244]
 custom_minimum_size = Vector2(160, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 26

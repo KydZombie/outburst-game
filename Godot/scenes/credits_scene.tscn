@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://creditspage01"]
 
 [ext_resource type="Script" uid="uid://b20tneru2gim1" path="res://scripts/ui/credits_screen.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://bc8fap83p01ap" path="res://art/outburst-bg-1.png" id="2_x5wno"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1pu23"]
+bg_color = Color(0.04, 0.04, 0.06, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
 bg_color = Color(0.12, 0.14, 0.22, 0.9)
@@ -24,15 +27,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="TextureRect" parent="." unique_id=1026638113]
+[node name="Background" type="PanelContainer" parent="." unique_id=449642003]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = 5.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bg")
-expand_mode = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_1pu23")
+
+[node name="BackgroundTexture" type="TextureRect" parent="Background" unique_id=2030135396]
+modulate = Color(0.23387015, 0.23387015, 0.23387015, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_x5wno")
+expand_mode = 3
 stretch_mode = 6
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=2088393268]
@@ -65,10 +76,8 @@ theme_override_font_sizes/font_size = 24
 text = "This game was made by
 
 Levi Cheptoyek
-Logan
-Quna
-
-The assets were got from Deck_builder_ season _1_tutorial repo. This includes the icons, sound effects and some scenes.
+Logan Reynolds
+Quan Tran Huynh
 
 Thanks for playing!"
 horizontal_alignment = 1

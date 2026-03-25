@@ -1,0 +1,803 @@
+[gd_scene format=3 uid="uid://dvyff443thf0t"]
+
+[ext_resource type="Script" uid="uid://ceesyjtomc4hi" path="res://scripts/battle/battle_ui_manager.gd" id="1_script"]
+[ext_resource type="Theme" path="res://resources/battle_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="3_ww1p6"]
+[ext_resource type="Texture2D" uid="uid://bv2wpbh3uv4x3" path="res://art/tile_0109.png" id="4_2wmvw"]
+[ext_resource type="Texture2D" uid="uid://chtnrxmaowwkd" path="res://art/tile_0111.png" id="5_ww1p6"]
+[ext_resource type="Texture2D" uid="uid://01cnuv5m4n6f" path="res://art/tile_0112.png" id="6_7hnyd"]
+[ext_resource type="Texture2D" uid="uid://1u3b3hwqd8yh" path="res://art/tile_0110.png" id="7_dddu7"]
+[ext_resource type="Texture2D" uid="uid://d2vujk8wvu6ia" path="res://art/tile_0123.png" id="8_3511k"]
+[ext_resource type="AudioStream" uid="uid://dpdenqqbovwfq" path="res://art/8_bit_iced_village_lofi.mp3" id="11_music"]
+[ext_resource type="AudioStream" uid="uid://dixklg6g4jnsq" path="res://art/slash.ogg" id="12_slap"]
+[ext_resource type="AudioStream" uid="uid://df64e7qat73gs" path="res://art/block.ogg" id="13_draw"]
+[ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="14_hover"]
+[ext_resource type="Script" uid="uid://ol0l6vjq0ir8" path="res://scripts/audio_manager.gd" id="15_audio"]
+[ext_resource type="Script" uid="uid://3k173mfj4c2f" path="res://scripts/GodotBattleAdapter.cs" id="16_core_adapter"]
+[ext_resource type="AudioStream" uid="uid://de2ryat1pxq6" path="res://art/enemy_attack.ogg" id="17_enemy_attack"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.04, 0.04, 0.06, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.071, 0.094, 0.176, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.165, 0.231, 0.435, 0.5)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 8
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_party_row"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.09, 0.12, 0.2, 1)
+border_color = Color(0.165, 0.231, 0.435, 0)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_deck"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.106, 0.137, 0.239, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.231, 0.435, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_draw_button"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.106, 0.137, 0.239, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 10
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_draw_button_pressed"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.137, 0.176, 0.298, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 10
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_color = Color(0.35, 0.48, 0.95, 1)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_draw_button_hover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0.106, 0.137, 0.239, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+corner_detail = 10
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+shadow_color = Color(0.22, 0.35, 0.72, 0.95)
+shadow_size = 14
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bottom"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 16.0
+bg_color = Color(0.071, 0.094, 0.176, 0.98)
+border_width_top = 2
+border_color = Color(0.165, 0.231, 0.435, 0.6)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_energy_box"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.08, 0.1, 0.18, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+shadow_color = Color(0.98, 0.8, 0.082, 0.35)
+shadow_size = 8
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_endturn_normal"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.106, 0.137, 0.239, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 10
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_endturn_pressed"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.137, 0.176, 0.298, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 10
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+shadow_color = Color(0.35, 0.48, 0.95, 1)
+shadow_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_endturn_hover"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.106, 0.137, 0.239, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 10
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+shadow_color = Color(0.22, 0.35, 0.72, 0.95)
+shadow_size = 16
+shadow_offset = Vector2(0, 2)
+
+[node name="BattleScene" type="Control" unique_id=210740255]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="AudioManager" type="Node" parent="." unique_id=900000001]
+script = ExtResource("15_audio")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="AudioManager" unique_id=900000002]
+stream = ExtResource("11_music")
+volume_db = -8.0
+autoplay = true
+
+[node name="SFX_PlayCard" type="AudioStreamPlayer" parent="AudioManager" unique_id=900000003]
+stream = ExtResource("12_slap")
+
+[node name="SFX_DrawCard" type="AudioStreamPlayer" parent="AudioManager" unique_id=900000004]
+stream = ExtResource("13_draw")
+
+[node name="SFX_CardHover" type="AudioStreamPlayer" parent="AudioManager" unique_id=900000005]
+stream = ExtResource("14_hover")
+
+[node name="SFX_EnemyAttack" type="AudioStreamPlayer" parent="AudioManager" unique_id=900000006]
+stream = ExtResource("17_enemy_attack")
+
+[node name="CoreAdapter" type="Node" parent="." unique_id=900000010]
+script = ExtResource("16_core_adapter")
+
+[node name="DragLayer" type="CanvasLayer" parent="." unique_id=891529396]
+layer = 100
+
+[node name="Background" type="PanelContainer" parent="." unique_id=1002273621]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="BackgroundTexture" type="TextureRect" parent="Background" unique_id=888888881]
+modulate = Color(0.23387015, 0.23387015, 0.23387015, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_ww1p6")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Margin" type="MarginContainer" parent="Background" unique_id=673039520]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin" unique_id=569968585]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Main" type="HBoxContainer" parent="Background/Margin/VBox" unique_id=921671638]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LeftPanel" type="PanelContainer" parent="Background/Margin/VBox/Main" unique_id=308129436]
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="PartyList" type="VBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel" unique_id=1521864198]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="Niko" type="PanelContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList" unique_id=732071695]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_party_row")
+
+[node name="HBox" type="HBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Niko" unique_id=1296412631]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Portrait" type="TextureRect" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Niko/HBox" unique_id=1153281905]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+theme = ExtResource("2_theme")
+texture = ExtResource("4_2wmvw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Niko/HBox" unique_id=1202067687]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Name" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Niko/HBox/VBox" unique_id=1091154219]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Niko"
+
+[node name="HP" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Niko/HBox/VBox" unique_id=399065326]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.95, 0.75, 1)
+theme_override_font_sizes/font_size = 12
+text = "100/100"
+
+[node name="HealthBar" type="ProgressBar" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Niko/HBox/VBox" unique_id=1380935182]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="Emotions" type="RichTextLabel" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Niko/HBox/VBox" unique_id=1900000001]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "😡0 😢0 😊0"
+scroll_active = false
+vertical_alignment = 1
+
+[node name="Remi" type="PanelContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList" unique_id=1697848958]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_party_row")
+
+[node name="HBox" type="HBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Remi" unique_id=2135886372]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Portrait" type="TextureRect" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Remi/HBox" unique_id=1146222228]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("5_ww1p6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Remi/HBox" unique_id=321187405]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Name" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Remi/HBox/VBox" unique_id=1232169320]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Remi"
+
+[node name="HP" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Remi/HBox/VBox" unique_id=113343439]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.95, 0.75, 1)
+theme_override_font_sizes/font_size = 12
+text = "85/100"
+
+[node name="HealthBar" type="ProgressBar" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Remi/HBox/VBox" unique_id=521098364]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+value = 85.0
+show_percentage = false
+
+[node name="Emotions" type="RichTextLabel" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Remi/HBox/VBox" unique_id=1900000002]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "😡0 😢0 😊0"
+scroll_active = false
+vertical_alignment = 1
+
+[node name="Arna" type="PanelContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList" unique_id=371583205]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_party_row")
+
+[node name="HBox" type="HBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Arna" unique_id=1157565921]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Portrait" type="TextureRect" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Arna/HBox" unique_id=232417876]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("6_7hnyd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Arna/HBox" unique_id=226364982]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Name" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Arna/HBox/VBox" unique_id=23458459]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Arna"
+
+[node name="HP" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Arna/HBox/VBox" unique_id=1267659782]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "45/100"
+
+[node name="HealthBar" type="ProgressBar" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Arna/HBox/VBox" unique_id=2062935190]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+value = 45.0
+show_percentage = false
+
+[node name="Emotions" type="RichTextLabel" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Arna/HBox/VBox" unique_id=1900000003]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "😡0 😢0 😊0"
+scroll_active = false
+vertical_alignment = 1
+
+[node name="Caelum" type="PanelContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList" unique_id=2062659634]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_party_row")
+
+[node name="HBox" type="HBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Caelum" unique_id=1138501162]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Portrait" type="TextureRect" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Caelum/HBox" unique_id=188240203]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("7_dddu7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Caelum/HBox" unique_id=1731497437]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="Name" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Caelum/HBox/VBox" unique_id=1891504230]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.98, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Caelum"
+
+[node name="HP" type="Label" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Caelum/HBox/VBox" unique_id=465577539]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.95, 0.75, 1)
+theme_override_font_sizes/font_size = 12
+text = "100/100"
+
+[node name="HealthBar" type="ProgressBar" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Caelum/HBox/VBox" unique_id=757668939]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="Emotions" type="RichTextLabel" parent="Background/Margin/VBox/Main/LeftPanel/PartyList/Caelum/HBox/VBox" unique_id=1900000004]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+text = "😡0 😢0 😊0"
+scroll_active = false
+vertical_alignment = 1
+
+[node name="CenterArea" type="VBoxContainer" parent="Background/Margin/VBox/Main" unique_id=1133076725]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="DeckDiscardRow" type="HBoxContainer" parent="Background/Margin/VBox/Main/CenterArea" unique_id=274069637]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="DeckCounter" type="PanelContainer" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow" unique_id=695969006]
+custom_minimum_size = Vector2(86, 86)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_deck")
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow/DeckCounter" unique_id=1818910053]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Count" type="Label" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow/DeckCounter/VBox" unique_id=256972427]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "9"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow/DeckCounter/VBox" unique_id=1902171004]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.9, 0.96, 1)
+theme_override_font_sizes/font_size = 11
+text = "DECK"
+horizontal_alignment = 1
+
+[node name="OutburstLabel" type="Label" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow" unique_id=199864234]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.88, 0.9, 0.96, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.55)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 42
+text = "OUTBURST"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DiscardCounter" type="PanelContainer" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow" unique_id=963790872]
+custom_minimum_size = Vector2(86, 86)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_deck")
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow/DiscardCounter" unique_id=181793923]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Count" type="Label" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow/DiscardCounter/VBox" unique_id=276389533]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "0"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Background/Margin/VBox/Main/CenterArea/DeckDiscardRow/DiscardCounter/VBox" unique_id=594518139]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.9, 0.96, 1)
+theme_override_font_sizes/font_size = 11
+text = "DISCARD"
+horizontal_alignment = 1
+
+[node name="PlayZone" type="Control" parent="Background/Margin/VBox/Main/CenterArea" unique_id=1938410884]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayZoneFill" type="ColorRect" parent="Background/Margin/VBox/Main/CenterArea/PlayZone" unique_id=1938410885]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.2, 0.3, 0.45, 0.28)
+
+[node name="AngryComboHint" type="RichTextLabel" parent="Background/Margin/VBox/Main/CenterArea/PlayZone" unique_id=887001001]
+visible = false
+z_index = 4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -72.0
+offset_right = 280.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.35, 0.65, 1, 0.95)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/normal_font_size = 26
+theme_override_font_sizes/bold_font_size = 26
+bbcode_enabled = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TargetPrompt" type="Label" parent="Background/Margin/VBox/Main/CenterArea/PlayZone" unique_id=1358931300]
+visible = false
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -72.0
+offset_right = 280.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.35, 0.65, 1, 0.95)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 26
+text = "SELECT AN ALLY"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PlayEffect" type="Label" parent="Background/Margin/VBox/Main/CenterArea/PlayZone" unique_id=845001234]
+visible = false
+z_index = 6
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -64.0
+offset_right = 80.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 96
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightPanel" type="PanelContainer" parent="Background/Margin/VBox/Main" unique_id=2143770975]
+custom_minimum_size = Vector2(220, 400)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="EnemyPanel" type="VBoxContainer" parent="Background/Margin/VBox/Main/RightPanel" unique_id=527132452]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="EnemyPortrait" type="TextureRect" parent="Background/Margin/VBox/Main/RightPanel/EnemyPanel" unique_id=605127791]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture = ExtResource("7_dddu7")
+stretch_mode = 5
+
+[node name="IntentLabel" type="Label" parent="Background/Margin/VBox/Main/RightPanel/EnemyPanel" unique_id=538989476]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 24
+text = "⚔ 30"
+horizontal_alignment = 1
+
+[node name="EnemyName" type="Label" parent="Background/Margin/VBox/Main/RightPanel/EnemyPanel" unique_id=178480785]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.82, 1)
+theme_override_font_sizes/font_size = 16
+text = "JEFF THE CRAB"
+horizontal_alignment = 1
+
+[node name="EnemyHP" type="Label" parent="Background/Margin/VBox/Main/RightPanel/EnemyPanel" unique_id=345877291]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.55, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "60 / 60"
+horizontal_alignment = 1
+
+[node name="EnemyHealthBar" type="ProgressBar" parent="Background/Margin/VBox/Main/RightPanel/EnemyPanel" unique_id=345877293]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 60.0
+value = 60.0
+show_percentage = false
+
+[node name="HandContainer" type="Control" parent="Background/Margin/VBox" unique_id=1213562476]
+z_index = 2
+custom_minimum_size = Vector2(420, 140)
+layout_mode = 2
+
+[node name="DrawCardRow" type="HBoxContainer" parent="Background/Margin/VBox" unique_id=666666003]
+z_index = 5
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="DrawCardButton" type="Button" parent="Background/Margin/VBox/DrawCardRow" unique_id=666666004]
+z_index = 5
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_draw_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_draw_button_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_draw_button_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_draw_button_hover")
+text = " [ DRAW CARD ] "
+
+[node name="BottomBar" type="PanelContainer" parent="Background/Margin/VBox" unique_id=2030555910]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bottom")
+
+[node name="HBox" type="HBoxContainer" parent="Background/Margin/VBox/BottomBar" unique_id=288559986]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="EnergyBox" type="PanelContainer" parent="Background/Margin/VBox/BottomBar/HBox" unique_id=910293240]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_energy_box")
+
+[node name="EnergyLabel" type="Label" parent="Background/Margin/VBox/BottomBar/HBox/EnergyBox" unique_id=1840286145]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "ENERGY: 0"
+
+[node name="TurnCounter" type="Label" parent="Background/Margin/VBox/BottomBar/HBox" unique_id=304945129]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.95, 0.85)
+theme_override_font_sizes/font_size = 16
+text = "TURN 1"
+
+[node name="BottomBarSpacerL" type="Control" parent="Background/Margin/VBox/BottomBar/HBox" unique_id=1496770944]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="EndTurnButton" type="Button" parent="Background/Margin/VBox/BottomBar/HBox" unique_id=508974056]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_endturn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_endturn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_endturn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_endturn_hover")
+text = " [ END TURN ] "
+
+[node name="BottomBarSpacerR" type="Control" parent="Background/Margin/VBox/BottomBar/HBox" unique_id=1496770945]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ControlsLabel" type="Label" parent="Background/Margin/VBox/BottomBar/HBox" unique_id=1496770943]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.35, 0.65, 1, 0.95)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "D-Draw Card  •  S-Skip turn  •  M-Return to menu"
+horizontal_alignment = 2

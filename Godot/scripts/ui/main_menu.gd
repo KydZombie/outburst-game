@@ -3,7 +3,7 @@ extends Control
 
 const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
 
-const BATTLE_SCENE_PATH := "res://scenes/battle/battle_scene.tscn"
+const BATTLE_SCENE_PATH := "res://scenes/battle_scene.tscn"
 const CREDITS_SCENE_PATH := "res://scenes/credits_scene.tscn"
 const TUTORIAL_SCENE_PATH := "res://scenes/settings_scene.tscn"
 const SETTINGS_SCENE_PATH := "res://scenes/settings_menu_scene.tscn"

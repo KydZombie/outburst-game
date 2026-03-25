@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Outburst Game Debugging"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="uid://ddcqrxoc47b7m"
 config/features=PackedStringArray("4.6", "C#")
 
 [autoload]
@@ -80,5 +80,6 @@ battle_return_to_menu={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.04, 0.04, 0.06, 1)

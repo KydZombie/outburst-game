@@ -1,10 +1,18 @@
 [gd_scene format=3 uid="uid://ddcqrxoc47b7m"]
 
-[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
+[ext_resource type="Script" uid="uid://diwp54t44ud12" path="res://scripts/ui/main_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bk0bdcn0aw2lp" path="res://art/outburst-title.png" id="2_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://bc8fap83p01ap" path="res://art/outburst-bg-1.png" id="2_wu84c"]
 [ext_resource type="AudioStream" uid="uid://dpdenqqbovwfq" path="res://art/8_bit_iced_village_lofi.mp3" id="3_music"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ln24"]
+bg_color = Color(0.04, 0.04, 0.06, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
 bg_color = Color(0.08, 0.1, 0.18, 0.85)
 border_width_left = 2
 border_width_top = 2
@@ -18,35 +26,12 @@ corner_radius_bottom_left = 10
 shadow_color = Color(0, 0, 0, 0.4)
 shadow_size = 4
 shadow_offset = Vector2(0, 2)
-content_margin_left = 24.0
-content_margin_top = 12.0
-content_margin_right = 24.0
-content_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
-bg_color = Color(0.12, 0.15, 0.26, 0.92)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.75)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(1, 1, 1, 0.18)
-shadow_size = 6
-shadow_offset = Vector2(0, 0)
-expand_margin_left = 2.0
-expand_margin_top = 2.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
-content_margin_left = 24.0
-content_margin_top = 12.0
-content_margin_right = 24.0
-content_margin_bottom = 12.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 24.0
+content_margin_top = 12.0
+content_margin_right = 24.0
+content_margin_bottom = 12.0
 bg_color = Color(0.16, 0.2, 0.34, 0.95)
 border_width_left = 2
 border_width_top = 2
@@ -57,34 +42,39 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-shadow_color = Color(1, 1, 1, 0.25)
-shadow_size = 8
-shadow_offset = Vector2(0, 0)
 expand_margin_left = 2.0
 expand_margin_top = 2.0
 expand_margin_right = 2.0
 expand_margin_bottom = 2.0
+shadow_color = Color(1, 1, 1, 0.25)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
 content_margin_left = 24.0
 content_margin_top = 12.0
 content_margin_right = 24.0
 content_margin_bottom = 12.0
+bg_color = Color(0.12, 0.15, 0.26, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.75)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color(1, 1, 1, 0.18)
+shadow_size = 6
 
 [sub_resource type="Animation" id="Animation_title_pulse"]
 resource_name = "title_pulse"
 length = 3.0
 loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("VBox/Title:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5, 3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 0.95, 0.88, 1), Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_main"]
 _data = {
@@ -100,18 +90,26 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="TextureRect" parent="." unique_id=1326798000]
+[node name="Background" type="PanelContainer" parent="." unique_id=413518561]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = 5.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bg")
-expand_mode = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_8ln24")
+
+[node name="BackgroundTexture" type="TextureRect" parent="Background" unique_id=1785970849]
+modulate = Color(0.23387015, 0.23387015, 0.23387015, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_wu84c")
+expand_mode = 3
 stretch_mode = 6
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="." unique_id=130079509]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -121,17 +119,11 @@ grow_vertical = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Title" type="Label" parent="VBox" unique_id=1160245962]
+[node name="Title" type="TextureRect" parent="VBox" unique_id=1961614032]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
-theme_override_font_sizes/font_size = 86
-text = "OUTBURST"
-horizontal_alignment = 1
-
-[node name="Spacer" type="Control" parent="VBox"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
+texture = ExtResource("2_bqqt6")
+stretch_mode = 5
 
 [node name="MenuContainer" type="VBoxContainer" parent="VBox" unique_id=62145252]
 layout_mode = 2

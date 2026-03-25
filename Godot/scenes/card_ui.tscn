@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bn4yb8n1orf0t"]
 
-[ext_resource type="Script" uid="uid://5hmrb7vmjqkg" path="res://scenes/card_ui.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://5hmrb7vmjqkg" path="res://scripts/card_ui.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
 content_margin_left = 12.0

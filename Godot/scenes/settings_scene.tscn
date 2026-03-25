@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://cnw7fypgv7757"]
 
 [ext_resource type="Script" uid="uid://dfbpxolvhle8b" path="res://scripts/ui/settings_screen.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://bc8fap83p01ap" path="res://art/outburst-bg-1.png" id="2_5jacn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83w5s"]
+bg_color = Color(0.04, 0.04, 0.06, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
 content_margin_left = 16.0
@@ -75,15 +78,23 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="TextureRect" parent="." unique_id=623102975]
+[node name="Background" type="PanelContainer" parent="." unique_id=312495098]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = 5.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bg")
-expand_mode = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_83w5s")
+
+[node name="BackgroundTexture" type="TextureRect" parent="Background" unique_id=424375335]
+modulate = Color(0.23387015, 0.23387015, 0.23387015, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_5jacn")
+expand_mode = 3
 stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=682358696]

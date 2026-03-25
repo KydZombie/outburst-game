@@ -7,7 +7,7 @@ class_name BattleUIPortraits
 
 const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
 
-const SHEET_PATH := "res://outburst-character-sheet.png"
+const SHEET_PATH := "res://art/outburst-character-sheet.png"
 const FRAME_SIZE := 48
 
 const SHEET_ROW: Dictionary = {
@@ -29,7 +29,7 @@ const STATIC_PORTRAITS: Dictionary = {
 	"Remi": "res://art/tile_0088.png",
 	"Arna": "res://art/tile_0108.png",
 	"Caelum": "res://art/tile_0111.png",
-	"Jeff": "res://art/tile_0110.png",
+	"Jeff": "res://art/outburst-hoodlum.png",
 	"Jeff The Crab": "res://art/tile_0110.png",
 }
 

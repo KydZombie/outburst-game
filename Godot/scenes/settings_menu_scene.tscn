@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://bi72tsonxy7au"]
 
-[ext_resource type="Script" path="res://scripts/ui/settings_menu.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dnyuaq2rabsyl" path="res://resources/image.png" id="2_bg"]
+[ext_resource type="Script" uid="uid://dl3es0lr8n2t1" path="res://scripts/ui/settings_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bc8fap83p01ap" path="res://art/outburst-bg-1.png" id="2_mwxyr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fao48"]
+bg_color = Color(0.04, 0.04, 0.06, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
 bg_color = Color(0.12, 0.14, 0.22, 0.9)
@@ -15,7 +18,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="SettingsMenuScene" type="Control"]
+[node name="SettingsMenuScene" type="Control" unique_id=497468507]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,18 +27,26 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="PanelContainer" parent="." unique_id=1338918041]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -5.0
+offset_right = 5.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_bg")
-expand_mode = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_fao48")
+
+[node name="BackgroundTexture" type="TextureRect" parent="Background" unique_id=219813612]
+modulate = Color(0.23387015, 0.23387015, 0.23387015, 1)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_mwxyr")
+expand_mode = 3
 stretch_mode = 6
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1533651388]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,12 +58,12 @@ theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 80
 theme_override_constants/margin_bottom = 60
 
-[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=787647307]
 layout_mode = 2
 theme_override_constants/separation = 28
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBox"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBox" unique_id=1903500535]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
 theme_override_font_sizes/font_size = 42
@@ -60,18 +71,18 @@ text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Subtitle" type="Label" parent="MarginContainer/VBox"]
+[node name="Subtitle" type="Label" parent="MarginContainer/VBox" unique_id=1290357844]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.73, 0.7, 1)
 theme_override_font_sizes/font_size = 18
 text = "Audio & Difficulty"
 horizontal_alignment = 1
 
-[node name="DifficultyRow" type="HBoxContainer" parent="MarginContainer/VBox"]
+[node name="DifficultyRow" type="HBoxContainer" parent="MarginContainer/VBox" unique_id=86692018]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="DifficultyLabel" type="Label" parent="MarginContainer/VBox/DifficultyRow"]
+[node name="DifficultyLabel" type="Label" parent="MarginContainer/VBox/DifficultyRow" unique_id=1163357645]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -80,16 +91,16 @@ theme_override_font_sizes/font_size = 20
 text = "Difficulty"
 vertical_alignment = 1
 
-[node name="DifficultyOption" type="OptionButton" parent="MarginContainer/VBox/DifficultyRow"]
+[node name="DifficultyOption" type="OptionButton" parent="MarginContainer/VBox/DifficultyRow" unique_id=687853750]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 18
 
-[node name="VolumeRow" type="HBoxContainer" parent="MarginContainer/VBox"]
+[node name="VolumeRow" type="HBoxContainer" parent="MarginContainer/VBox" unique_id=1604023582]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="VolumeLabel" type="Label" parent="MarginContainer/VBox/VolumeRow"]
+[node name="VolumeLabel" type="Label" parent="MarginContainer/VBox/VolumeRow" unique_id=1786206379]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_vertical = 1
@@ -98,11 +109,11 @@ theme_override_font_sizes/font_size = 20
 text = "Master volume"
 vertical_alignment = 1
 
-[node name="MasterSlider" type="HSlider" parent="MarginContainer/VBox/VolumeRow"]
+[node name="MasterSlider" type="HSlider" parent="MarginContainer/VBox/VolumeRow" unique_id=1450431897]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BackButton" type="Button" parent="MarginContainer/VBox"]
+[node name="BackButton" type="Button" parent="MarginContainer/VBox" unique_id=888028075]
 custom_minimum_size = Vector2(220, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 26

@@ -4,7 +4,7 @@ extends Control
 const _NinePatch := preload("res://scripts/ui/nine_patch_frame.gd")
 
 const MAIN_MENU_PATH := "res://scenes/main_menu.tscn"
-const BATTLE_SCENE_PATH := "res://scenes/battle/battle_scene.tscn"
+const BATTLE_SCENE_PATH := "res://scenes/battle_scene.tscn"
 
 @onready var title_label: Label = $CenterContainer/VBox/TitleLabel
 @onready var back_button: Button = $CenterContainer/VBox/ButtonRow/BackToMenuButton

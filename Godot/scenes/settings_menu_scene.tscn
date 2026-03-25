@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dl3es0lr8n2t1" path="res://scripts/ui/settings_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bc8fap83p01ap" path="res://art/outburst-bg-1.png" id="2_mwxyr"]
+[ext_resource type="FontFile" uid="uid://cxyfoty1ehhqd" path="res://art/m20.TTF" id="3_1f6k0"]
+[ext_resource type="FontFile" uid="uid://deuukqsiqd5m4" path="res://art/CyborgSister.ttf" id="4_bhalb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fao48"]
 bg_color = Color(0.04, 0.04, 0.06, 1)
@@ -66,6 +68,7 @@ alignment = 1
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBox" unique_id=1903500535]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_fonts/font = ExtResource("3_1f6k0")
 theme_override_font_sizes/font_size = 42
 text = "Settings"
 horizontal_alignment = 1
@@ -74,7 +77,8 @@ vertical_alignment = 1
 [node name="Subtitle" type="Label" parent="MarginContainer/VBox" unique_id=1290357844]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.73, 0.7, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_bhalb")
+theme_override_font_sizes/font_size = 36
 text = "Audio & Difficulty"
 horizontal_alignment = 1
 
@@ -87,14 +91,16 @@ custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.88, 0.86, 0.82, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("4_bhalb")
+theme_override_font_sizes/font_size = 40
 text = "Difficulty"
 vertical_alignment = 1
 
 [node name="DifficultyOption" type="OptionButton" parent="MarginContainer/VBox/DifficultyRow" unique_id=687853750]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_bhalb")
+theme_override_font_sizes/font_size = 36
 
 [node name="VolumeRow" type="HBoxContainer" parent="MarginContainer/VBox" unique_id=1604023582]
 layout_mode = 2
@@ -105,7 +111,8 @@ custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.88, 0.86, 0.82, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("4_bhalb")
+theme_override_font_sizes/font_size = 40
 text = "Master volume"
 vertical_alignment = 1
 
@@ -116,6 +123,7 @@ size_flags_horizontal = 3
 [node name="BackButton" type="Button" parent="MarginContainer/VBox" unique_id=888028075]
 custom_minimum_size = Vector2(220, 56)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_1f6k0")
 theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")

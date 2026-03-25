@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b20tneru2gim1" path="res://scripts/ui/credits_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bc8fap83p01ap" path="res://art/outburst-bg-1.png" id="2_x5wno"]
+[ext_resource type="FontFile" uid="uid://cxyfoty1ehhqd" path="res://art/m20.TTF" id="3_1pu23"]
+[ext_resource type="FontFile" uid="uid://deuukqsiqd5m4" path="res://art/CyborgSister.ttf" id="4_t4kbm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1pu23"]
 bg_color = Color(0.04, 0.04, 0.06, 1)
@@ -62,6 +64,7 @@ alignment = 1
 [node name="TitleLabel" type="Label" parent="CenterContainer/VBox" unique_id=641458370]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_fonts/font = ExtResource("3_1pu23")
 theme_override_font_sizes/font_size = 48
 text = "Credits"
 horizontal_alignment = 1
@@ -72,12 +75,17 @@ custom_minimum_size = Vector2(900, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9, 0.88, 0.85, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_fonts/font = ExtResource("4_t4kbm")
+theme_override_font_sizes/font_size = 48
 text = "This game was made by
 
 Levi Cheptoyek
 Logan Reynolds
 Quan Tran Huynh
+
+Fonts:
+M20 SP-Ranker [by Miffies]
+Cyborg Sister [by jeti]
 
 Thanks for playing!"
 horizontal_alignment = 1
@@ -87,6 +95,7 @@ autowrap_mode = 3
 [node name="BackButton" type="Button" parent="CenterContainer/VBox" unique_id=735604659]
 custom_minimum_size = Vector2(220, 56)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_1pu23")
 theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")

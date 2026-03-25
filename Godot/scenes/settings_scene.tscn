@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dfbpxolvhle8b" path="res://scripts/ui/settings_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bc8fap83p01ap" path="res://art/outburst-bg-1.png" id="2_5jacn"]
+[ext_resource type="FontFile" uid="uid://cxyfoty1ehhqd" path="res://art/m20.TTF" id="3_tori7"]
+[ext_resource type="FontFile" uid="uid://deuukqsiqd5m4" path="res://art/CyborgSister.ttf" id="4_2xs06"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83w5s"]
 bg_color = Color(0.04, 0.04, 0.06, 1)
@@ -111,12 +113,14 @@ theme_override_constants/margin_bottom = 32
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer" unique_id=1886423624]
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_constants/separation = 12
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBox" unique_id=508678184]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_fonts/font = ExtResource("3_tori7")
 theme_override_font_sizes/font_size = 48
 text = "Tutorial"
 horizontal_alignment = 1
@@ -128,10 +132,6 @@ size_flags_vertical = 3
 theme_override_constants/separation = 14
 alignment = 1
 
-[node name="HubSpacerTop" type="Control" parent="MarginContainer/VBox/HubView" unique_id=710000030]
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="TopicGrid" type="VBoxContainer" parent="MarginContainer/VBox/HubView" unique_id=710000003]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -141,7 +141,8 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
@@ -152,7 +153,8 @@ text = "Overview"
 custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
@@ -163,7 +165,8 @@ text = "Energy & Cards"
 custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
@@ -174,7 +177,8 @@ text = "Draw & Turn Flow"
 custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
@@ -185,7 +189,8 @@ text = "Emotions"
 custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
@@ -196,7 +201,8 @@ text = "Jeff (Enemy)"
 custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
@@ -207,7 +213,8 @@ text = "Targeting & Hints"
 custom_minimum_size = Vector2(320, 44)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
@@ -218,6 +225,7 @@ text = "Controls"
 custom_minimum_size = Vector2(320, 40)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_tori7")
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
@@ -238,12 +246,14 @@ theme_override_constants/separation = 10
 [node name="SectionTitle" type="Label" parent="MarginContainer/VBox/DetailView" unique_id=720000002]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.92, 0.85, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 64
 text = "Section"
 horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="DetailScroll" type="ScrollContainer" parent="MarginContainer/VBox/DetailView" unique_id=720000003]
+custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
@@ -252,13 +262,15 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.9, 0.88, 0.84, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_fonts/font = ExtResource("4_2xs06")
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="PageIndicator" type="Label" parent="MarginContainer/VBox/DetailView" unique_id=720000008]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.65, 0.78, 0.85)
+theme_override_fonts/font = ExtResource("3_tori7")
 theme_override_font_sizes/font_size = 16
 text = "1 / 7"
 horizontal_alignment = 1
@@ -271,6 +283,7 @@ alignment = 1
 [node name="BtnPrev" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000006]
 custom_minimum_size = Vector2(100, 36)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_tori7")
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
@@ -281,6 +294,7 @@ text = "← Back"
 [node name="BtnNext" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000009]
 custom_minimum_size = Vector2(100, 36)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_tori7")
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
@@ -291,6 +305,7 @@ text = "Next →"
 [node name="BtnTopics" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000010]
 custom_minimum_size = Vector2(100, 36)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_tori7")
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
@@ -301,6 +316,7 @@ text = "Topics"
 [node name="BtnMenu" type="Button" parent="MarginContainer/VBox/DetailView/DetailNav" unique_id=720000007]
 custom_minimum_size = Vector2(148, 36)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_tori7")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")

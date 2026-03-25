@@ -4,6 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://b1vpjjmi5cj3n" path="res://art/axe.ogg" id="3_win"]
 [ext_resource type="AudioStream" uid="uid://k8m4o3hlwm7l" path="res://art/enemy_block.ogg" id="4_loss"]
 [ext_resource type="Texture2D" uid="uid://cww0cesob4ge0" path="res://art/outburst-bg-3.png" id="4_weh2h"]
+[ext_resource type="FontFile" uid="uid://cxyfoty1ehhqd" path="res://art/m20.TTF" id="5_jy0sy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jy0sy"]
 bg_color = Color(0.04, 0.04, 0.06, 1)
@@ -71,6 +72,7 @@ alignment = 1
 
 [node name="TitleLabel" type="Label" parent="CenterContainer/VBox" unique_id=1579222316]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jy0sy")
 theme_override_font_sizes/font_size = 72
 text = "GAME OVER"
 horizontal_alignment = 1
@@ -84,6 +86,7 @@ alignment = 1
 [node name="BackToMenuButton" type="Button" parent="CenterContainer/VBox/ButtonRow" unique_id=1052925433]
 custom_minimum_size = Vector2(220, 56)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jy0sy")
 theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
@@ -94,6 +97,7 @@ text = "Main menu"
 [node name="RetryButton" type="Button" parent="CenterContainer/VBox/ButtonRow" unique_id=1740682244]
 custom_minimum_size = Vector2(160, 56)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_jy0sy")
 theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn")
